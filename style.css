@@ -72,7 +72,7 @@ h2 {
 }
 
 button {
-	margin-top: 15px;
+	margin-top: 25px;
 	width: 200px;
 	height: 50px;
 	font-size: 20px;
@@ -81,6 +81,8 @@ button {
 	color: gold;
 	font-family: cursive;
 	border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 2px 2px .5px rgb(26, 25, 25, 0.7);
 }
 
 canvas:hover {

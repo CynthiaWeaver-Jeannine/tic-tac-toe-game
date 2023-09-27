@@ -12,6 +12,7 @@ html {
 header {
 	text-align: center;
 	margin: 50px;
+    padding: 0;
 }
 
 #head {

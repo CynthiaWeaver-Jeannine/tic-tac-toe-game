@@ -3,33 +3,42 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
+		<meta charset="UTF-8">
 		<title>Tic Tac Toe</title>
+        <viewport content="width=device-width, initial-scale=1.0">    
 	</head>
     <body>
-        <h1>Tic Tac Toe</h1>
-        <div id="board">
-            <div class="row">
-                <div class="cell" id="cell-0"></div>
-                <div class="cell" id="cell-1"></div>
-                <div class="cell" id="cell-2"></div>
-            </div>
-            <div class="row">
-                <div class="cell" id="cell-3"></div>
-                <div class="cell" id="cell-4"></div>
-                <div class="cell" id="cell-5"></div>
-            </div>
-            <div class="row">
-                <div class="cell" id="cell-6"></div>
-                <div class="cell" id="cell-7"></div>
-                <div class="cell" id="cell-8"></div>
-            </div>
-        </div>
-        <div id="message"></div>
-        <button id="reset">Reset</button>
-        <script src="js/tictactoe.js"></script>
+        <header>
+            <h1 id="head">Tic Tac Toe Game</h1>
+        </header>
+        <section id="game">
+            <div id="tic">
+                <canvas id="canvas1" width="100" height="100"></canvas>
+                <canvas id="canvas2" width="100" height="100"></canvas>
+                <canvas id="canvas3" width="100" height="100"></canvas>
+                <br />
+                <canvas id="canvas4" width="100" height="100"></canvas>
+                <canvas id="canvas5" width="100" height="100"></canvas>
+                <canvas id="canvas6" width="100" height="100"></canvas>
+                <br />
+                <canvas id="canvas7" width="100" height="100"></canvas>
+                <canvas id="canvas8" width="100" height="100"></canvas>
+                <canvas id="canvas9" width="100" height="100"></canvas>
 
+                <center><button id="newGame">NEW GAME</button></center>
+            </div>
+                <div id="rules">
+                    <h2>Rules</h2>
+                    <p>The game is played on a grid that's 3 squares by 3 squares.</p>
+                    <p>The first player to fill three consecutive squares wins!</p>
+                    <p>You can start a new game at any point.</p>
+            </div>
+        </section>
+        <h1 id="result"></h1>
         
+     
+
+
 
     </body>
 </html>

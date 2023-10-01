@@ -23,7 +23,7 @@ window.onload = function () {
 	let gameOver = false;
 	let humanPlayer = "X";
 	let ai = "O";
-	let result = {};
+	const result = {};
 	for (let i = 0; i < 9; i++) {
 		filled[i] = false;
 		symbol[i] = "";
@@ -85,6 +85,7 @@ window.onload = function () {
 			"canvas8",
 			"canvas9",
 		];
+
 		if (validNums.includes(numId)) {
 			const num = validNums.indexOf(numId) + 1;
 			if (!filled[num - 1]) {
@@ -183,6 +184,35 @@ window.onload = function () {
 			alert("Game Over! Click on 'New Game' to start again.");
 		}
 	}
-   
+	function minimax(newSymbol, player) {
+		const empty = emptyBoxes(newSymbol);
+		if (winnerCheck(newSymbol, humanPlayer)) {
+			return { score: -10 };
+		} else if (winnerCheck(newSymbol, ai)) {
+			return { score: 10 };
+		} else if (empty.length === 0) {
+			if (winnerCheck(newSymbol, humanPlayer)) {
+				return { score: -10 };
+			} else if (winnerCheck(newSymbol, ai)) {
+				return { score: 10 };
+			}
+			return { score: 0 };
+		}
 
+		const possibleMoves = [];
+		for (let i = 0; i < empty.length; i++) {
+			const currentMove = {};
+			move.index = empty[i];
+			newSymbol[empty[i]] = player;
+			if (player == ai) {
+				const result = minimax(newSymbol, humanPlayer);
+				currentMove.score = result.score;
+			} else {
+				result = minimax(newSymbol, ai);
+				currentMove.score = result.score;
+			}
+			newSymbol[empty[i]] = "";
+			possibleMoves.push(currentMove);
+		}
+	}
 };

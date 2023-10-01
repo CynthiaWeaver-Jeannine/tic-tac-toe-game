@@ -1,7 +1,6 @@
 /** @format */
 
 window.onload = function () {
-	let num;
 	let box;
 	let turn = 1;
 	let context;
@@ -23,34 +22,41 @@ window.onload = function () {
 	let gameOver = false;
 	let humanPlayer = "X";
 	let ai = "O";
-	const result = {};
 	for (let i = 0; i < 9; i++) {
 		filled[i] = false;
 		symbol[i] = "";
 	}
 	let n = document.getElementById("new");
 	n.addEventListener("click", newGame);
+
 	function newGame() {
 		document.location.reload();
+		filled = new Array(9).fill(false);
 	}
+
 	document.getElementById("board").addEventListener("click", function (e) {
 		boxClick(e.target.id);
 	});
+
 	function drawX(box) {
-		box.style.backgroundColor = "white";
-		const context = box.getContext("2d");
-		context.beginPath();
-		context.moveTo(15, 15);
-		context.lineTo(85, 85);
-		context.moveTo(85, 15);
-		context.lineTo(15, 85);
-		context.lineWidth = 10;
-		context.lineCap = "round";
-		context.strokeStyle = "#ff6666";
-		context.stroke();
-		context.closePath();
-		symbol[num] = "X";
+		if (box && box.style) {
+			box.style.backgroundColor = "white";
+			const context = box.getContext("2d");
+			context.beginPath();
+			context.moveTo(15, 15);
+			context.lineTo(85, 85);
+			context.moveTo(85, 15);
+			context.lineTo(15, 85);
+			context.lineWidth = 10;
+			context.lineCap = "round";
+			context.strokeStyle = "#ff6666";
+			context.stroke();
+			context.closePath();
+			const num = parseInt(box.id.replace("canvas", "")) - 1;
+			symbol[num] = "X";
+		}
 	}
+
 	function drawO(next) {
 		box.style.backgroundColor = "orange";
 		context.beginPath();
@@ -61,6 +67,7 @@ window.onload = function () {
 		context.closePath();
 		symbol[next] = ai;
 	}
+
 	function winnerCheck(symbol) {
 		for (let j = 0; j < winner.length; j++) {
 			if (
@@ -73,6 +80,7 @@ window.onload = function () {
 		}
 		return false;
 	}
+
 	function boxClick(numId) {
 		const validNums = [
 			"canvas1",
@@ -87,7 +95,7 @@ window.onload = function () {
 		];
 
 		if (validNums.includes(numId)) {
-			const num = validNums.indexOf(numId) + 1;
+			let num = validNums.indexOf(numId) + 1;
 			if (!filled[num - 1]) {
 				box = document.getElementById(numId);
 				context = box.getContext("2d");
@@ -125,7 +133,7 @@ window.onload = function () {
 				if (filled[num - 1] == false) {
 					if (gameOver === false) {
 						if (turn % 2 !== 0) {
-							drawX();
+							drawX(box);
 							turn++;
 							filled[num - 1] = true;
 							if (winnerCheck(symbol, symbol[num - 1]) === true) {
@@ -202,8 +210,9 @@ window.onload = function () {
 		const possibleMoves = [];
 		for (let i = 0; i < empty.length; i++) {
 			const currentMove = {};
-			move.index = empty[i];
+			currentMove.index = empty[i];
 			newSymbol[empty[i]] = player;
+			let result;
 			if (player == ai) {
 				const result = minimax(newSymbol, humanPlayer);
 				currentMove.score = result.score;
@@ -214,5 +223,24 @@ window.onload = function () {
 			newSymbol[empty[i]] = "";
 			possibleMoves.push(currentMove);
 		}
+		let bestMove;
+		if (player === ai) {
+			let bestScore = -10000;
+			for (let i = 0; i < possibleMoves.length; i++) {
+				if (possibleMoves[i].score > bestScore) {
+					bestScore = possibleMoves[i].score;
+					bestMove = i;
+				}
+			}
+		} else {
+			let lowestScore = 10000;
+			for (let i = 0; i < possibleMoves.length; i++) {
+				if (possibleMoves[i].score < lowestScore) {
+					lowestScore = possibleMoves[i].score;
+					bestMove = i;
+				}
+			}
+		}
+		return possibleMoves[bestMove];
 	}
 };

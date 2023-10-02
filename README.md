@@ -1,6 +1,6 @@
 # Tic-Tac-Toe Game
 
-![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/20e44778-01c0-4bb5-8af4-378cf5c7df9c)
+![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/56e36c44-abff-4188-88be-99e3e0b86341)
 
 
 
@@ -29,7 +29,7 @@ This is a simple Tic Tac Toe game that allows you to play against an AI opponent
 4. Play strategically to block Max.
 5. If you succeed in blocking Max, the game ends in a draw.
 
-   ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/76db366f-1703-49dd-9e63-3e9df2220285)
+   ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/89ad06f7-7bcc-4246-af56-d2f52928e34f)
 
 
 

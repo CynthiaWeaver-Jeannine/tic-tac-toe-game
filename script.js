@@ -57,7 +57,7 @@ window.onload = function () {
 	}
 
 	function drawO(next) {
-		box.style.backgroundColor = "#93f273";
+		box.style.backgroundColor = "#71e29c";
 		context.beginPath();
 		context.arc(50, 50, 35, 0, 2 * Math.PI);
 		context.lineWidth = 20;
@@ -179,7 +179,7 @@ window.onload = function () {
 				//draw condition
 				if (turn > 9 && gameOver !== true) {
 					document.getElementById("result").innerText =
-						"It Was a Draw! Click NEW GAME!";
+						"It's a Draw! Click NEW GAME!";
 				}
 			}
 		} else {

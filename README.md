@@ -32,7 +32,7 @@ This is a simple Tic Tac Toe game that allows you to play against an AI opponent
 
 
 ## Getting Started
-To play the game, simply open the [Tic Tac Toe Game]() in your web browser. You can also clone the repository and run it locally by following these steps:
+To play the game, simply open the [Tic Tac Toe Game](https://cynthiaweaver-jeannine.github.io/tic-tac-toe-game) in your web browser. You can also clone the repository and run it locally by following these steps:
 
 1. Clone this repository:
    ```bash

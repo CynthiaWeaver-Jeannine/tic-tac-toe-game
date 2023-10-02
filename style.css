@@ -38,6 +38,11 @@ h4#result {
 	margin-bottom: 30px;
 }
 
+.wrapper {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
 canvas {
 	border: 3px solid dodgerblue;
 	background-color: lightyellow;
@@ -47,10 +52,12 @@ canvas {
 }
 
 #game {
+	flex-grow: 1;
 	position: relative;
 	width: 670px;
 	height: 322px;
 	margin: 0 auto;
+	padding-bottom: 60px;
 }
 
 #board {
@@ -145,15 +152,17 @@ button:hover {
 	
 }
 
-	
-	.info-footer-container {
-		display: flex;
-		flex-direction: column;
+	#gameInfo {
+		padding-bottom: 40px;
+		
+
 		
 	}
 	.site-footer p {
 		text-align: center;
-		padding: 1px;
+		position: relative;
+		margin-top: 0;
+	
 	
 	}
 }

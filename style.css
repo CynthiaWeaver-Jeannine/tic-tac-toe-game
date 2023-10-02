@@ -1,10 +1,13 @@
+/** @format */
+
 * {
 	padding: 0;
 	margin: 0;
+
 }
 
 html {
-	background-color: #ffff80;
+	background-color: #fff291;
 }
 
 header {
@@ -15,14 +18,22 @@ header {
 
 h1#head {
 	font-size: 50px;
-	font-family: Cursive;
-	color: cornflowerblue;
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+		"Lucida Sans", Arial, sans-serif;
+	color: #270e28;
 }
 
-h1#result {
+h2#subhead {
+	font-size: 30px;
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+		"Lucida Sans", Arial, sans-serif;
+	font-style: italic;
+	color: #349e83;
+}
+h4#result {
 	font-size: 30px;
 	font-family: Verdana;
-	color: chocolate;
+	color: #349e83;
 	text-align: center;
 	margin-bottom: 30px;
 }
@@ -37,7 +48,7 @@ canvas {
 
 #game {
 	position: relative;
-	width: 660px;
+	width: 670px;
 	height: 322px;
 	margin: 0 auto;
 }
@@ -45,42 +56,47 @@ canvas {
 #board {
 	position: relative;
 	margin: 0 auto;
-	width: 318px;
-	height: 318px;	
+	max-width: 318px;
+	max-height: 314px;
 	float: left;
-	border: 3px solid dodgerblue;
+	border: 3px solid #349e83;
 }
 
-#rules {
+#gameInfo {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	position: relative;
 	width: 318px;
 	height: 318px;
 	text-align: left;
 	display: inline-block;
-	padding-left: 10px;
-	
+	padding-left: 20px;
+	font-size: 25px;
+	color: #270e28;
+
+}
+
+p, h3{
+	margin: 15px;
+	color: #270e28;
 }
 
 p {
-	font-size: 26px;
-	margin: 15px;
-	color: brown;
+	font-size: 20px;
 }
 
-h2 {
-	font-size: 35px;
-	color: brown;
-	padding-left: 10px;
-}
+
+	
+
 
 button {
 	margin-top: 25px;
 	width: 200px;
 	height: 50px;
-	font-size: 20px;
+	font-size: 30px;
 	font-weight: bold;
-	font-family: cursive;
-	background-color: limegreen;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-style: italic;
+	background-color: #349e83;
 	color: gold;
 	border: none;
 	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.7);
@@ -88,9 +104,15 @@ button {
 }
 
 canvas:hover {
-	background-color: lightblue;
+	background-color: #bbede0;
 }
 
 button:hover {
-	background: green;
+	background: #9bf0db;
+}
+
+@media (max-width: 768px) {
+	#board {
+		flex-direction: column;
+	}
 }

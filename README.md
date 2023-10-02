@@ -3,7 +3,7 @@
 ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/82636121-7f47-485d-a0b0-3e94417a1f8b)
 
 
-## Test your skills against Maxi, an unbeatable AI!
+## Test your skills against Max, an unbeatable AI!
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -14,19 +14,19 @@
 - [Contact](#contact)
 
 ## Introduction
-This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Maxi. Maxi is an unbeatable AI, so you will need to play intelligently to achieve a draw.
+This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. Max is an unbeatable AI, so you will need to play intelligently to achieve a draw.
 
 ## Features
 - Interactive Tic Tac Toe gameplay.
-- Play against an unbeatable AI opponent (Maxi).
+- Play against an unbeatable AI opponent (Max).
 - Simple and intuitive user interface.
 
 ## How to Play
 1. You get the first move, and you play as "X."
-2. Maxi plays as "O."
+2. Max plays as "O."
 3. To make a move, click on one of the empty squares on the game board.
-4. Play strategically to block Maxi.
-5. If you succeed in blocking Maxi, the game ends in a draw.
+4. Play strategically to block Max.
+5. If you succeed in blocking Max, the game ends in a draw.
 
    ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/9fe55197-a13a-4dd0-8e0e-0928905c3841)
 
@@ -39,7 +39,7 @@ To play the game, simply open the [Tic Tac Toe Game](https://cynthiaweaver-jeann
    git clone https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game
 2. Open the index.html file in your web browser.
 
-3. Start playing and test your skills against Maxi!
+3. Start playing and test your skills against Max!
 
 ## Contributing
 If you'd like to contribute to this project, please follow these steps:

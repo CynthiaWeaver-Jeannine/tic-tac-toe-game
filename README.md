@@ -12,7 +12,6 @@
 - [Getting Started](#getting-started)
 - [Contributing](#contributing)
 - [Contact](#contact)
-- [License](#license)
 
 ## Introduction
 This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Maxi. Maxi is an unbeatable AI, so you will need to play intelligently to achieve a draw.
@@ -35,3 +34,32 @@ To play the game, simply open the [Tic Tac Toe Game]() in your web browser. You 
 1. Clone this repository:
    ```bash
    git clone https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game
+2. Open the index.html file in your web browser.
+
+3. Start playing and test your skills against Maxi!
+
+## Contributing
+If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch with a descriptive name:
+   ```bash
+   git checkout -b feature/your-feature-name
+3. Make your changes and commit them:
+   ``` bash
+   git commit -m "Add your feature description"
+4. Push your changes to your fork:
+   ``` bash
+   git push origin feature/your-feature-name
+5. Open a pull request to the main repository.
+
+
+## Contact
+If you have any questions, suggestions, or if your are interested in collaborating, contact me:
+
+[cynthiajweaver@live.com](mailto:cynthiajweaver@live.com)  
+[LinkedIn: Cynthia Weaver's LinkedIn Profile](https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bf625PYHuQgidhKLhsTuIuQ%3D%3D)  
+[GitHub Repository for this game](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game)  
+
+
+   

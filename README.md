@@ -61,5 +61,5 @@ If you have any questions, suggestions, or if your are interested in collaborati
 [LinkedIn: Cynthia Weaver's LinkedIn Profile](https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bf625PYHuQgidhKLhsTuIuQ%3D%3D)  
 [GitHub Repository for this game](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game)  
 
-- [Go to top of page](#Tic-Tac-Toe)
+- [Go to top of page](#Test)
    

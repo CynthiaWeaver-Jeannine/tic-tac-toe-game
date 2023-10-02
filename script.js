@@ -33,21 +33,20 @@ window.onload = function () {
 	n.addEventListener("click", newGame);
 
 	function newGame() {
-		// Clear the canvases
+		
 		for (let i = 1; i <= 9; i++) {
 			const canvas = document.getElementById("canvas" + i);
 			const context = canvas.getContext("2d");
 			context.clearRect(0, 0, canvas.width, canvas.height);
-			canvas.style.backgroundColor = ""; // Clear the background color
+			canvas.style.backgroundColor = ""; 
 		}
 
-		// Reset game variables
+		
 		filled = new Array(9).fill(false);
 		symbol = new Array(9).fill("");
 		turn = 1;
 		gameOver = false;
 
-		// Clear the result message
 		document.getElementById("result").innerText = "";
 	}
 

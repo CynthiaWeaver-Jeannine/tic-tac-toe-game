@@ -140,7 +140,7 @@ window.onload = function () {
 				}
 			} else {
 				document.getElementById("result").innerText =
-					"Maxi Won! Click NEW GAME!";
+					"Max Won! Click NEW GAME!";
 			}
 		} else {
 			alert("This box was already filled. Please click on another one.");
@@ -172,7 +172,7 @@ window.onload = function () {
 
 				//win condition
 				if (winnerCheck(symbol, symbol[nextMove.id]) === true) {
-					document.getElementById("result").innerText = "Maxi Won! Click NEW GAME!";
+					document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
 					gameOver = true;
 				}
 

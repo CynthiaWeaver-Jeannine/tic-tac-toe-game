@@ -44,7 +44,7 @@ h4#result {
 	flex-direction: column;
 }
 canvas {
-	border: 3px solid dodgerblue;
+	border: 3px solid #0f7d62;
 	background-color: lightyellow;
 	text-align: center;
 	display: block;
@@ -66,7 +66,7 @@ canvas {
 	max-width: 318px;
 	max-height: 314px;
 	float: left;
-	border: 3px solid #349e83;
+	border: 3px solid #0f7d62;
 }
 
 #gameInfo {

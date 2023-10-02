@@ -28,6 +28,9 @@ This is a simple Tic Tac Toe game that allows you to play against an AI opponent
 4. Play strategically to block Maxi.
 5. If you succeed in blocking Maxi, the game ends in a draw.
 
+   ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/9fe55197-a13a-4dd0-8e0e-0928905c3841)
+
+
 ## Getting Started
 To play the game, simply open the [Tic Tac Toe Game]() in your web browser. You can also clone the repository and run it locally by following these steps:
 

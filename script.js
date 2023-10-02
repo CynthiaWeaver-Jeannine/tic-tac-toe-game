@@ -41,8 +41,6 @@ window.onload = function () {
 	});
 
 	function drawX() {
-		let box = document.getElementById("canvas" + num);
-		box.classList.add("x-mark");
 		box.style.backgroundColor = "#fb5181";
 		context.beginPath();
 		context.moveTo(15, 15);
@@ -59,8 +57,6 @@ window.onload = function () {
 	}
 
 	function drawO(next) {
-		let box = document.getelementById("canvas" + next);
-		box.classList.add("o-mark");
 		box.style.backgroundColor = "#71e29c";
 		context.beginPath();
 		context.arc(50, 50, 35, 0, 2 * Math.PI);

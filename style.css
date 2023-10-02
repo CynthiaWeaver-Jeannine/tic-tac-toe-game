@@ -146,6 +146,7 @@ button:hover {
 	.game-container {
 		flex-direction: row;
 	}
+	
    .game-container {
 	display: flex;
 	flex-direction: column;

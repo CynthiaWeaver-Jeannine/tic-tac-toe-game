@@ -119,16 +119,17 @@ footer {
 	padding: 20px;
 	overflow: hidden;	
 }
+
 footer p {
 	font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 	float: left;
 	margin-right: 20px;
 }
+
 footer a {
 	font-size: 20px;
 	color: rgb(45, 108, 225);	
-	text-decoration: none;
-	
+	text-decoration: none;	
 }
 
 @media (max-width: 768px) {

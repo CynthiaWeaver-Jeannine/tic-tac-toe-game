@@ -132,8 +132,12 @@ footer a {
 	text-decoration: none;	
 }
 
+.game-container{
+	display: flex;
+	flex-direction: row;
+}
 @media (max-width: 768px) {
-	#board {
+	.game-container {
 		flex-direction: column;
 	}
 }

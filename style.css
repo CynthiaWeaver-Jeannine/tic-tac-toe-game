@@ -111,6 +111,26 @@ button:hover {
 	background: #9bf0db;
 }
 
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #f2f2f2;
+	padding: 20px;
+	overflow: hidden;	
+}
+footer p {
+	font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	float: left;
+	margin-right: 20px;
+}
+footer a {
+	font-size: 20px;
+	color: rgb(45, 108, 225);	
+	text-decoration: none;
+	
+}
+
 @media (max-width: 768px) {
 	#board {
 		flex-direction: column;

@@ -130,7 +130,7 @@ window.onload = function () {
 
 					if (turn > 9 && gameOver !== true) {
 						document.getElementById("result").innerText =
-							"It Was a Draw! Click NEW GAME!";
+							"It's a Draw! Click NEW GAME!";
 						return;
 					}
 

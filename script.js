@@ -71,6 +71,11 @@ window.onload = function () {
 					document.getElementById("result").innerText = "It's a Draw!";
 				} else {
 					handleAIMove();
+					if (turn >= 9 && !gameOver) {
+						document.getElementById("result").innerText =
+							"It's a Draw! Click NEW GAME!";
+						gameOver = true;
+					}
 				}
 			}
 		} else {
@@ -130,119 +135,121 @@ window.onload = function () {
 		return emptyPositions;
 	}
 
-	// handle the AI's move; check for winner or draw
-	function handleAIMove() {
-		let nextId;
-		const gameMode = document.getElementById("gameMode").value;
-
-		switch (gameMode) {
-			case "classic":
-				const nextMove = evaluateBestMove(boardSymbols, aiSymbol);
-				nextId = "canvas" + (nextMove.id + 1);
-				break;
-			case "easy":
-				nextId = getEasyMove();
-				break;
-			case "random":
-				nextId = getRandomMove();
-				break;
-			default:
-				console.error("Unknown game mode:", gameMode);
-				alert("Invalid game mode selected. Please choose a valid game mode.");
-				return;
-		}
-
-		const box = document.getElementById(nextId);
-		const context = box.getContext("2d");
-
-		if (!gameOver) {
-			if (!gameOver) {
-				if (turn % 2 !== 0) {
-					drawSymbolOnBox(context, humanSymbol, box);
-					drawSymbolOnBox(context, aiSymbol, box);
-					if (checkForWinner(boardSymbols, aiSymbol)) {
-						document.getElementById("result").innerText =
-							"Max Won! Click NEW GAME!";
-						gameOver = true;
-					} else if (turn >= 9) {
-						document.getElementById("result").innerText =
-							"It's a Draw! Click NEW GAME!";
-					}
-				} else {
-					alert("The game is over. Click NEW GAME to play!");
-				}
-			}
-
-			/* 
+	/* 
 		Minimax algorithm with alpha-beta pruning
 		https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
 	*/
-			function evaluateBestMove(
-				currentBoardState,
-				player,
-				alpha = -Infinity,
-				beta = Infinity,
-			) {
-				const emptyPositions = getEmptyBoxPositions(currentBoardState);
+	function evaluateBestMove(
+		currentBoardState,
+		player,
+		alpha = -Infinity,
+		beta = Infinity,
+	) {
+		const emptyPositions = getEmptyBoxPositions(boardSymbols);
+		if (emptyPositions.length === 0) {
+			console.log("No more moves left!");
+			return;
+		}
+		if (checkForWinner(currentBoardState, humanSymbol)) {
+			return { score: -10 };
+		} else if (checkForWinner(currentBoardState, aiSymbol)) {
+			return { score: 10 };
+		} else if (emptyPositions.length === 0) {
+			return { score: 0 };
+		}
+		if (player === aiSymbol) {
+			let bestScore = -Infinity;
+			let bestMove;
 
-				if (checkForWinner(currentBoardState, humanSymbol)) {
-					return { score: -10 };
-				} else if (checkForWinner(currentBoardState, aiSymbol)) {
-					return { score: 10 };
-				} else if (emptyPositions.length === 0) {
-					return { score: 0 };
+			for (let emptyIndex of emptyPositions) {
+				currentBoardState[emptyIndex] = player;
+				let currentScore = evaluateBestMove(
+					currentBoardState,
+					humanSymbol,
+					alpha,
+					beta,
+				).score;
+				currentBoardState[emptyIndex] = "";
+
+				if (currentScore > bestScore) {
+					bestScore = currentScore;
+					bestMove = { id: emptyIndex, score: bestScore };
 				}
 
-				if (player === aiSymbol) {
-					let bestScore = -Infinity;
-					let bestMove;
+				alpha = Math.max(alpha, bestScore);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			return bestMove;
+		} else {
+			let bestScore = Infinity;
+			let bestMove;
 
-					for (let emptyIndex of emptyPositions) {
-						currentBoardState[emptyIndex] = player;
-						let currentScore = evaluateBestMove(
-							currentBoardState,
-							humanSymbol,
-							alpha,
-							beta,
-						).score;
-						currentBoardState[emptyIndex] = "";
+			for (let emptyIndex of emptyPositions) {
+				currentBoardState[emptyIndex] = player;
+				let currentScore = evaluateBestMove(
+					currentBoardState,
+					aiSymbol,
+					alpha,
+					beta,
+				).score;
+				currentBoardState[emptyIndex] = "";
 
-						if (currentScore > bestScore) {
-							bestScore = currentScore;
-							bestMove = { id: emptyIndex, score: bestScore };
+				if (currentScore < bestScore) {
+					bestScore = currentScore;
+					bestMove = { id: emptyIndex, score: bestScore };
+				}
+
+				beta = Math.min(beta, bestScore);
+				if (beta <= alpha) {
+					break;
+				}
+			}
+			return bestMove;
+		}
+
+		// handle the AI's move; check for winner or draw
+		function handleAIMove() {
+			let nextId;
+			const gameMode = document.getElementById("gameMode").value;
+
+			switch (gameMode) {
+				case "classic":
+					const nextMove = evaluateBestMove(boardSymbols, aiSymbol);
+					nextId = "canvas" + (nextMove.id + 1);
+					break;
+				case "easy":
+					nextId = getEasyMove();
+					break;
+				case "random":
+					nextId = getRandomMove();
+					break;
+				default:
+					console.error("Unknown game mode:", gameMode);
+					alert("Invalid game mode selected. Please choose a valid game mode.");
+					return;
+			}
+
+			const box = document.getElementById(nextId);
+			const context = box.getContext("2d");
+
+			if (!gameOver) {
+				if (!gameOver) {
+					if (turn % 2 !== 0) {
+						drawSymbolOnBox(context, humanSymbol, box);
+						drawSymbolOnBox(context, aiSymbol, box);
+						if (checkForWinner(boardSymbols, aiSymbol)) {
+							document.getElementById("result").innerText =
+								"Max Won! Click NEW GAME!";
+							gameOver = true;
+						} else if (turn >= 9) {
+							document.getElementById("result").innerText =
+								"It's a Draw! Click NEW GAME!";
 						}
-
-						alpha = Math.max(alpha, bestScore);
-						if (beta <= alpha) {
-							break;
-						}
+					} else {
+						alert("The game is over. Click NEW GAME to play!");
 					}
-					return bestMove;
-				} else {
-					let bestScore = Infinity;
-					let bestMove;
-
-					for (let emptyIndex of emptyPositions) {
-						currentBoardState[emptyIndex] = player;
-						let currentScore = evaluateBestMove(
-							currentBoardState,
-							aiSymbol,
-							alpha,
-							beta,
-						).score;
-						currentBoardState[emptyIndex] = "";
-
-						if (currentScore < bestScore) {
-							bestScore = currentScore;
-							bestMove = { id: emptyIndex, score: bestScore };
-						}
-
-						beta = Math.min(beta, bestScore);
-						if (beta <= alpha) {
-							break;
-						}
-					}
-					return bestMove;
 				}
 
 				function getEasyMove() {

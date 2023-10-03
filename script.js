@@ -1,8 +1,10 @@
 /** @format */
 
 window.onload = function () {
+	// tic-tac-toe game configuration
 	const humanSymbol = "X";
 	const aiSymbol = "O";
+	// winning combinations
 	const winner = [
 		[0, 1, 2],
 		[3, 4, 5],
@@ -14,16 +16,19 @@ window.onload = function () {
 		[2, 4, 6],
 	];
 
+	// initial state
 	let filled = Array(9).fill(false);
 	let boardSymbols = Array(9).fill("");
 	let turn = 1;
 	let gameOver = false;
 
+	// event listeners
 	document.getElementById("newGameButton").addEventListener("click", newGame);
 	document.getElementById("board").addEventListener("click", function (e) {
 		handleBoxClick(e.target.id);
 	});
 
+	// reset the game
 	function newGame() {
 		for (let i = 1; i <= 9; i++) {
 			const canvas = document.getElementById("canvas" + i);
@@ -39,6 +44,7 @@ window.onload = function () {
 		document.getElementById("result").innerText = "";
 	}
 
+	// handle user's box clicks; manage the game state
 	function handleBoxClick(boxId) {
 		const num = parseInt(boxId.replace("canvas", "")) - 1;
 		const box = document.getElementById(boxId);
@@ -63,6 +69,7 @@ window.onload = function () {
 		}
 	}
 
+	// draw the symbol on the box and update the game state
 	function drawSymbolOnBox(context, player, box) {
 		if (player === humanSymbol) {
 			box.style.backgroundColor = "#fb5181";
@@ -90,6 +97,7 @@ window.onload = function () {
 		turn++;
 	}
 
+	// check if the player has won
 	function checkForWinner(board, player) {
 		return winner.some(
 			(combination) =>
@@ -99,6 +107,7 @@ window.onload = function () {
 		);
 	}
 
+	// get the empty boxes
 	function getEmptyBoxPositions(currentBoardState) {
 		const emptyPositions = [];
 		for (let i = 0; i < currentBoardState.length; i++) {
@@ -112,6 +121,7 @@ window.onload = function () {
 		return emptyPositions;
 	}
 
+	// handle the AI's move; check for winner or draw
 	function handleAIMove() {
 		let nextMove = evaluateBestMove(boardSymbols, aiSymbol);
 		let nextId = "canvas" + (nextMove.id + 1);

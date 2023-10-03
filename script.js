@@ -27,81 +27,6 @@ window.onload = function () {
 			);
 		}
 	}
-
-	function isBoardFull(board) {
-		return board.every(cell => cell === "X" || cell === "O");
-	}
-	// initial state
-	let filled = Array(9).fill(false);
-	let boardSymbols = Array(9).fill("");
-	let turn = 1;
-	let gameOver = false;
-	// event listeners
-	document.getElementById("gameMode").addEventListener("change", function (e) {
-		const validModes = ["classic", "easy", "random"];
-		if (!validModes.includes(e.target.value)) {
-			alert("Invalid game mode selected. Please choose a valid game mode.");
-			e.target.value = "classic";
-		}
-	});
-	document.getElementById("newGameButton").addEventListener("click", newGame);
-	document.getElementById("board").addEventListener("click", function (e) {
-		handleBoxClick(e.target.id);
-	});
-	// reset the game
-	function newGame() {
-		for (let i = 1; i <= 9; i++) {
-			const canvas = document.getElementById("canvas" + i);
-			const context = canvas.getContext("2d");
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			canvas.style.backgroundColor = "";
-			gameOver = false;
-		}
-
-		filled.fill(false);
-		boardSymbols.fill("");
-		turn = 1;
-		gameOver = false;
-		document.getElementById("result").innerText = "";
-	}
-	function checkForDraw() {
-		if (turn >= 9 && !gameOver) {
-			document.getElementById("result").innerText =
-				"It's a Draw! Click NEW GAME!";
-			gameOver = true;
-		}
-	}
-	// handle user's box clicks; manage the game state
-	function handleBoxClick(boxId) {
-		const num = parseInt(boxId.replace("canvas", "")) - 1;
-		const box = document.getElementById(boxId);
-		const context = box.getContext("2d");
-
-		if (filled[num] || gameOver) {
-			alert(
-				"This box was already filled or the game is over. Please click on another box or start a new game.",
-			);
-			return;
-		}
-
-		if (turn % 2 !== 0) {
-			// Human's turn
-			drawSymbolOnBox(context, humanSymbol, box);
-
-			if (hasWon(boardSymbols, humanSymbol)) {
-				document.getElementById(
-					"result",
-				).innerText = `Player ${humanSymbol} won!`;
-				gameOver = true;
-			} else {
-				checkForDraw();
-				if (!gameOver) {
-					handleAIMove();
-				}
-			}
-		}
-	}
-	// draw the symbol on the box and update the game state
 	function drawSymbolOnBox(context, player, box) {
 		if (player === humanSymbol) {
 			box.style.backgroundColor = "#fb5181";
@@ -128,22 +53,28 @@ window.onload = function () {
 		filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
 		turn++;
 	}
-	
-	// get the empty boxes
-	function getEmptyBoxPositions(currentBoardState) {
-		const emptyPositions = [];
-		for (let i = 0; i < currentBoardState.length; i++) {
-			if (
-				currentBoardState[i] !== humanSymbol &&
-				currentBoardState[i] !== aiSymbol
-			) {
-				emptyPositions.push(i);
-			}
-		}
-		return emptyPositions;
-	}
 
-	//Minimax algorithm with alpha-beta pruning	
+	function isBoardFull(board) {
+		return board.every(cell => cell === "X" || cell === "O");
+	}
+	// initial state
+	let filled = Array(9).fill(false);
+	let boardSymbols = Array(9).fill("");
+	let turn = 1;
+	let gameOver = false;
+	// event listeners
+	document.getElementById("gameMode").addEventListener("change", function (e) {
+		const validModes = ["classic", "easy", "random"];
+		if (!validModes.includes(e.target.value)) {
+			alert("Invalid game mode selected. Please choose a valid game mode.");
+			e.target.value = "classic";
+		}
+	});
+	document.getElementById("newGameButton").addEventListener("click", newGame);
+	document.getElementById("board").addEventListener("click", function (e) {
+		handleBoxClick(e.target.id);
+	});
+
 	function evaluateBestMove(
 		currentBoardState,
 		player,
@@ -215,6 +146,93 @@ window.onload = function () {
 		}
 	}
 
+	function getEmptyBoxPositions(currentBoardState) {
+		const emptyPositions = [];
+		for (let i = 0; i < currentBoardState.length; i++) {
+			if (
+				currentBoardState[i] !== humanSymbol &&
+				currentBoardState[i] !== aiSymbol
+			) {
+				emptyPositions.push(i);
+			}
+		}
+		return emptyPositions;
+	}
+function getEasyMove() {
+	// Check if there's a winning move for AI
+	for (let i = 0; i < boardSymbols.length; i++) {
+		if (!boardSymbols[i]) {
+			boardSymbols[i] = aiSymbol;
+			if (checkForWinner(boardSymbols, aiSymbol)) {
+				return "canvas" + (i + 1);
+			}
+			boardSymbols[i] = "";
+		}
+	}
+	// If no winning move, choose a random empty box
+	return getRandomMove();
+}
+	// reset the game
+	function newGame() {
+		for (let i = 1; i <= 9; i++) {
+			const canvas = document.getElementById("canvas" + i);
+			const context = canvas.getContext("2d");
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			canvas.style.backgroundColor = "";
+			gameOver = false;
+		}
+
+		filled.fill(false);
+		boardSymbols.fill("");
+		turn = 1;
+		gameOver = false;
+		document.getElementById("result").innerText = "";
+	}
+	function checkForDraw() {
+		if (isBoardFull(boardSymbols)) {
+			document.getElementById("result").innerText =
+				"It's a Draw! Click NEW GAME!";
+			gameOver = true;
+		}
+	}
+	// handle user's box clicks; manage the game state
+	function handleBoxClick(boxId) {
+		const num = parseInt(boxId.replace("canvas", "")) - 1;
+		const box = document.getElementById(boxId);
+		const context = box.getContext("2d");
+
+		if (filled[num] || gameOver) {
+			alert(
+				"This box was already filled or the game is over. Please click on another box or start a new game.",
+			);
+			return;
+		}
+
+		if (turn % 2 !== 0) {
+			// Human's turn
+			drawSymbolOnBox(context, humanSymbol, box);
+
+			if (hasWon(boardSymbols, humanSymbol)) {
+				document.getElementById(
+					"result",
+				).innerText = `Player ${humanSymbol} won!`;
+				gameOver = true;
+			} else {
+				checkForDraw();
+				if (!gameOver) {
+					handleAIMove();
+				}
+			}
+		}
+	}
+	
+	
+	
+
+	
+	//Minimax algorithm with alpha-beta pruning	
+	
+
 	function handleAIMove() {
 		const boxId = getAIMove();
 		const box = document.getElementById(boxId);
@@ -255,7 +273,8 @@ window.onload = function () {
 		for (let i = 0; i < boardSymbols.length; i++) {
 			if (!boardSymbols[i]) {
 				boardSymbols[i] = aiSymbol;
-				if (checkForWinner(boardSymbols, aiSymbol)) {
+				if (hasWon(boardSymbols, aiSymbol)) {
+					// Changed this line
 					return "canvas" + (i + 1);
 				}
 				boardSymbols[i] = "";

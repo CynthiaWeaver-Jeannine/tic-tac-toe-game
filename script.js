@@ -98,169 +98,86 @@ window.onload = function () {
 				board[combination[2]] === player,
 		);
 	}
-	//human player box click
-	function boxClick(numId) {
-		box = document.getElementById(numId);
-		context = box.getContext("2d");
-		switch (numId) {
-			case "canvas1":
-				num = 1;
-				break;
-			case "canvas2":
-				num = 2;
-				break;
-			case "canvas3":
-				num = 3;
-				break;
-			case "canvas4":
-				num = 4;
-				break;
-			case "canvas5":
-				num = 5;
-				break;
-			case "canvas6":
-				num = 6;
-				break;
-			case "canvas7":
-				num = 7;
-				break;
-			case "canvas8":
-				num = 8;
-				break;
-			case "canvas9":
-				num = 9;
-				break;
-		}
 
-		if (filled[num - 1] === false) {
-			if (gameOver === false) {
-				if (turn % 2 !== 0) {
-					drawX();
-					turn++;
-					filled[num - 1] = true;
+    function boxClick(boxId) {
+        const num = parseInt(boxId.replace('canvas', ''));
+        const box = document.getElementById(boxId);
+        const context = box.getContext("2d");
 
-					if (winnerCheck(symbol, symbol[num - 1]) === true) {
-						document.getElementById("result").innerText =
-							"Player '" + symbol[num - 1] + "' won!";
-						gameOver = true;
-					}
+        if (!filled[num - 1] && !gameOver) {
+            if (turn % 2 !== 0) {
+                drawXorO(context, humanPlayer, box);
+                if (winnerCheck(symbol, humanPlayer)) {
+                    document.getElementById("result").innerText = `Player ${humanPlayer} won!`;
+                    gameOver = true;
+                } else if (turn >= 9) {
+                    document.getElementById("result").innerText = "It's a Draw!";
+                } else {
+                    playAI();
+                }
+            }
+        } else {
+            alert("This box was already filled. Please click on another one.");
+        }
+    }
 
-					if (turn > 9 && gameOver !== true) {
-						document.getElementById("result").innerText =
-							"It's a Draw! Click NEW GAME!";
-						return;
-					}
+    function emptyBoxes(newSymbol) {
+        const empty = [];
+        for (let i = 0; i < newSymbol.length; i++) {
+            if (newSymbol[i] !== humanPlayer && newSymbol[i] !== ai) {
+                empty.push(i);
+            }
+        }
+        return empty;
+    }
 
-					if (turn % 2 == 0) {
-						playAI();
-					}
-				}
-			} else {
-				document.getElementById("result").innerText =
-					"Max Won! Click NEW GAME!";
-			}
-		} else {
-			alert("This box was already filled. Please click on another one.");
-		}
-	}
+    function playAI() {
+        let nextMove = miniMax(symbol, ai);
+        let nextId = "canvas" + (nextMove.id + 1);
+        const box = document.getElementById(nextId);
+        const context = box.getContext("2d");
 
-	function emptyBoxes(newSymbol) {
-		let j = 0;
-		let empty = [];
-		for (let i = 0; i < newSymbol.length; i++) {
-			if (newSymbol[i] !== "X" && newSymbol[i] !== "O") {
-				empty[j] = i;
-				j++;
-			}
-		}
-		return empty;
-	}
+        if (!gameOver) {
+            drawXorO(context, ai, box);
+            if (winnerCheck(symbol, ai)) {
+                document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
+                gameOver = true;
+            } else if (turn >= 9) {
+                document.getElementById("result").innerText = "It's a Draw! Click NEW GAME!";
+            }
+        } else {
+            alert("Click the NEW GAME button to start again");
+        }
+    }
 
-	function playAI() {
-		let nextMove = miniMax(symbol, ai);
-		let nextId = "canvas" + (nextMove.id + 1);
-		box = document.getElementById(nextId);
-		context = box.getContext("2d");
-		if (gameOver === false) {
-			if (turn % 2 === 0) {
-				drawO(nextMove.id);
-				turn++;
-				filled[nextMove.id] = true;
+    function miniMax(newSymbol, player) {
+        const empty = emptyBoxes(newSymbol);
 
-				//win condition
-				if (winnerCheck(symbol, symbol[nextMove.id]) === true) {
-					document.getElementById("result").innerText =
-						"Max Won! Click NEW GAME!";
-					gameOver = true;
-				}
+        if (winnerCheck(newSymbol, humanPlayer)) {
+            return { score: -10 };
+        } else if (winnerCheck(newSymbol, ai)) {
+            return { score: 10 };
+        } else if (empty.length === 0) {
+            return { score: 0 };
+        }
 
-				//draw condition
-				if (turn > 9 && gameOver !== true) {
-					document.getElementById("result").innerText =
-						"It's a Draw! Click NEW GAME!";
-				}
-			}
-		} else {
-			alert("Click the NEW GAME button to start again");
-		}
-	}
+        const possibleMoves = empty.map(emptyIndex => {
+            const currentMove = { id: emptyIndex };
+            newSymbol[emptyIndex] = player;
 
-	//minimax logic
+            const result = (player === ai) 
+                ? miniMax(newSymbol, humanPlayer) 
+                : miniMax(newSymbol, ai);
 
-	function miniMax(newSymbol, player) {
-		let empty = [];
-		empty = emptyBoxes(newSymbol);
+            currentMove.score = result.score;
+            newSymbol[emptyIndex] = "";
 
-		if (winnerCheck(newSymbol, humanPlayer)) {
-			return { score: -10 };
-		} else if (winnerCheck(newSymbol, ai)) {
-			return { score: 10 };
-		} else if (empty.length === 0) {
-			if (winnerCheck(newSymbol, humanPlayer)) {
-				return { score: -10 };
-			} else if (winnerCheck(newSymbol, ai)) {
-				return { score: 10 };
-			}
-			return { score: 0 };
-		}
+            return currentMove;
+        });
 
-		let possibleMoves = [];
-		for (let i = 0; i < empty.length; i++) {
-			let currentMove = {};
-			currentMove.id = empty[i];
-			newSymbol[empty[i]] = player;
-
-			if (player === ai) {
-				result = miniMax(newSymbol, humanPlayer);
-				currentMove.score = result.score;
-			} else {
-				result = miniMax(newSymbol, ai);
-				currentMove.score = result.score;
-			}
-
-			newSymbol[empty[i]] = "";
-
-			possibleMoves.push(currentMove);
-		}
-
-		let bestMove;
-		if (player === ai) {
-			let highestScore = -1000;
-			for (let i = 0; i < possibleMoves.length; i++) {
-				if (possibleMoves[i].score > highestScore) {
-					highestScore = possibleMoves[i].score;
-					bestMove = i;
-				}
-			}
-		} else {
-			let lowestScore = 1000;
-			for (let i = 0; i < possibleMoves.length; i++) {
-				if (possibleMoves[i].score < lowestScore) {
-					lowestScore = possibleMoves[i].score;
-					bestMove = i;
-				}
-			}
-		}
-		return possibleMoves[bestMove];
-	}
+        return player === ai 
+            ? possibleMoves.reduce((best, move) => move.score > best.score ? move : best)
+            : possibleMoves.reduce((best, move) => move.score < best.score ? move : best);
+    }
 };
+

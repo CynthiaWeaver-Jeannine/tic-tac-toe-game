@@ -28,15 +28,16 @@ window.onload = function () {
 		filled[i] = false;
 		symbol[i] = "";
 	}
-
+ 
 	let n = document.getElementById("new");
 	n.addEventListener("click", newGame);
 
-	function newGame() {
-		
+	function newGame() {		
 		for (let i = 1; i <= 9; i++) {
 			const canvas = document.getElementById("canvas" + i);
-			const context = canvas.getContext("2d");
+			context = canvas.getContext("2d");
+			console.log(context)
+
 			context.clearRect(0, 0, canvas.width, canvas.height);
 			canvas.style.backgroundColor = ""; 
 		}
@@ -98,7 +99,7 @@ window.onload = function () {
 
 	//human player box click
 	function boxClick(numId) {
-		box = document.getElementById(numId);
+		box = document.getElementById(numId);		
 		context = box.getContext("2d");
 		switch (numId) {
 			case "canvas1":

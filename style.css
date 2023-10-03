@@ -114,6 +114,10 @@ button:hover {
 	background: #9bf0db;
 }
 
+.site-footer a:hover {
+	color: rgb(136, 174, 246);
+	text-decoration: underline;
+}
 .site-footer {
 	position: fixed;
 	bottom: 0;
@@ -121,12 +125,13 @@ button:hover {
 	background-color: #f2f2f2;
 	padding: 20px;
 	overflow: hidden;
+	text-align: center;
 }
 
 .site-footer p {
 	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-	float: left;
-	margin-right: 20px;
+	display: inline-block;
+	margin-right: 0, 10px;
 }
 
 .site-footer a {

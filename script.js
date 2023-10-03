@@ -1,8 +1,8 @@
 /** @format */
 
 window.onload = function () {
-	const humanPlayer = "X";
-	const ai = "O";
+	const humanSymbol = "X";
+	const aiSymbol = "O";
 	const winner = [
 		[0, 1, 2],
 		[3, 4, 5],
@@ -15,7 +15,7 @@ window.onload = function () {
 	];
 
 	let filled = Array(9).fill(false);
-	let symbol = Array(9).fill("");
+	let boardSymbols = Array(9).fill("");
 	let turn = 1;
 	let gameOver = false;
 
@@ -33,7 +33,7 @@ window.onload = function () {
 		}
 
 		filled.fill(false);
-		symbol.fill("");
+		boardSymbols.fill("");
 		turn = 1;
 		gameOver = false;
 		document.getElementById("result").innerText = "";
@@ -46,11 +46,11 @@ window.onload = function () {
 
 		if (!filled[num] && !gameOver) {
 			if (turn % 2 !== 0) {
-				drawXorO(context, humanPlayer, box);
-				if (winnerCheck(symbol, humanPlayer)) {
+				drawSymbolOnBox(context, humanSymbol, box);
+				if (checkForWinner(boardSymbols, humanSymbol)) {
 					document.getElementById(
 						"result",
-					).innerText = `Player ${humanPlayer} won!`;
+					).innerText = `Player ${humanSymbol} won!`;
 					gameOver = true;
 				} else if (turn >= 9) {
 					document.getElementById("result").innerText = "It's a Draw!";
@@ -63,8 +63,8 @@ window.onload = function () {
 		}
 	}
 
-	function drawXorO(context, player, box) {
-		if (player === humanPlayer) {
+	function drawSymbolOnBox(context, player, box) {
+		if (player === humanSymbol) {
 			box.style.backgroundColor = "#fb5181";
 			context.beginPath();
 			context.moveTo(15, 15);
@@ -85,12 +85,12 @@ window.onload = function () {
 			context.stroke();
 			context.closePath();
 		}
-		symbol[parseInt(box.id.replace("canvas", "")) - 1] = player;
+		boardSymbols[parseInt(box.id.replace("canvas", "")) - 1] = player;
 		filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
 		turn++;
 	}
 
-	function winnerCheck(board, player) {
+	function checkForWinner(board, player) {
 		return winner.some(
 			(combination) =>
 				board[combination[0]] === player &&
@@ -99,25 +99,25 @@ window.onload = function () {
 		);
 	}
 
-	function getEmptyBoxPositions(newSymbol) {
-		const empty = [];
-		for (let i = 0; i < newSymbol.length; i++) {
-			if (newSymbol[i] !== humanPlayer && newSymbol[i] !== ai) {
-				empty.push(i);
+	function getEmptyBoxPositions(currentBoardState) {
+		const emptyPositions = [];
+		for (let i = 0; i < currentBoardState.length; i++) {
+			if (currentBoardState[i] !== humanSymbol && currentBoardState[i] !== aiSymbol) {
+				emptyPositions.push(i);
 			}
 		}
-		return empty;
+		return emptyPositions;
 	}
 
 	function handleAIMove() {
-		let nextMove = handleBestMove(symbol, ai);
+		let nextMove = evaluateBestMove(boardSymbols, aiSymbol);
 		let nextId = "canvas" + (nextMove.id + 1);
 		const box = document.getElementById(nextId);
 		const context = box.getContext("2d");
 
 		if (!gameOver) {
-			drawXorO(context, ai, box);
-			if (winnerCheck(symbol, ai)) {
+			drawSymbolOnBox(context, aiSymbol, box);
+			if (checkForWinner(boardSymbols, aiSymbol)) {
 				document.getElementById("result").innerText =
 					"Max Won! Click NEW GAME!";
 				gameOver = true;
@@ -130,37 +130,37 @@ window.onload = function () {
 		}
 	}
 
-	function handleBestMove(newSymbol, player) {
-		const empty = getEmptyBoxPositions(newSymbol);
+	function evaluateBestMove(currentBoardState, player) {
+		const emptyPositions = getEmptyBoxPositions(currentBoardState);
 
-		if (winnerCheck(newSymbol, humanPlayer)) {
+		if (checkForWinner(currentBoardState, humanSymbol)) {
 			return { score: -10 };
-		} else if (winnerCheck(newSymbol, ai)) {
+		} else if (checkForWinner(currentBoardState, aiSymbol)) {
 			return { score: 10 };
-		} else if (empty.length === 0) {
+		} else if (emptyPositions.length === 0) {
 			return { score: 0 };
 		}
 
-		const possibleMoves = empty.map((emptyIndex) => {
-			const currentMove = { id: emptyIndex };
-			newSymbol[emptyIndex] = player;
+		const potentialMoves = emptyPositions.map((emptyIndex) => {
+			const currentPotentialMove = { id: emptyIndex };
+			currentBoardState[emptyIndex] = player;
 
 			const result =
-				player === ai
-					? handleBestMove(newSymbol, humanPlayer)
-					: handleBestMove(newSymbol, ai);
+				player === aiSymbol
+					? evaluateBestMove(currentBoardState, humanSymbol)
+					: evaluateBestMove(currentBoardState, ai);
 
-			currentMove.score = result.score;
-			newSymbol[emptyIndex] = "";
+			currentPotentialMove.score = result.score;
+			currentBoardState[emptyIndex] = "";
 
-			return currentMove;
+			return currentPotentialMove;
 		});
 
-		return player === ai
-			? possibleMoves.reduce((best, move) =>
+		return player === aiSymbol
+			? potentialMoves.reduce((best, move) =>
 					move.score > best.score ? move : best,
 			  )
-			: possibleMoves.reduce((best, move) =>
+			: potentialMoves.reduce((best, move) =>
 					move.score < best.score ? move : best,
 			  );
 	}

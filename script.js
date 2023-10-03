@@ -21,7 +21,7 @@ window.onload = function () {
 
 	document.getElementById("new").addEventListener("click", newGame);
 	document.getElementById("board").addEventListener("click", function (e) {
-		boxClick(e.target.id);
+		handleBoxClick(e.target.id);
 	});
 
 	function newGame() {
@@ -39,8 +39,8 @@ window.onload = function () {
 		document.getElementById("result").innerText = "";
 	}
 
-	function boxClick(boxId) {
-		const num = boxId.replace("canvas", "") - 1;
+	function handleBoxClick(boxId) {
+		const num = parseInt(boxId.replace("canvas", "")) - 1;
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
 
@@ -55,7 +55,7 @@ window.onload = function () {
 				} else if (turn >= 9) {
 					document.getElementById("result").innerText = "It's a Draw!";
 				} else {
-					playAI();
+					handleAIMove();
 				}
 			}
 		} else {
@@ -99,85 +99,69 @@ window.onload = function () {
 		);
 	}
 
-    function boxClick(boxId) {
-        const num = parseInt(boxId.replace('canvas', ''));
-        const box = document.getElementById(boxId);
-        const context = box.getContext("2d");
+	function getEmptyBoxPositions(newSymbol) {
+		const empty = [];
+		for (let i = 0; i < newSymbol.length; i++) {
+			if (newSymbol[i] !== humanPlayer && newSymbol[i] !== ai) {
+				empty.push(i);
+			}
+		}
+		return empty;
+	}
 
-        if (!filled[num - 1] && !gameOver) {
-            if (turn % 2 !== 0) {
-                drawXorO(context, humanPlayer, box);
-                if (winnerCheck(symbol, humanPlayer)) {
-                    document.getElementById("result").innerText = `Player ${humanPlayer} won!`;
-                    gameOver = true;
-                } else if (turn >= 9) {
-                    document.getElementById("result").innerText = "It's a Draw!";
-                } else {
-                    playAI();
-                }
-            }
-        } else {
-            alert("This box was already filled. Please click on another one.");
-        }
-    }
+	function handleAIMove() {
+		let nextMove = handleBestMove(symbol, ai);
+		let nextId = "canvas" + (nextMove.id + 1);
+		const box = document.getElementById(nextId);
+		const context = box.getContext("2d");
 
-    function emptyBoxes(newSymbol) {
-        const empty = [];
-        for (let i = 0; i < newSymbol.length; i++) {
-            if (newSymbol[i] !== humanPlayer && newSymbol[i] !== ai) {
-                empty.push(i);
-            }
-        }
-        return empty;
-    }
+		if (!gameOver) {
+			drawXorO(context, ai, box);
+			if (winnerCheck(symbol, ai)) {
+				document.getElementById("result").innerText =
+					"Max Won! Click NEW GAME!";
+				gameOver = true;
+			} else if (turn >= 9) {
+				document.getElementById("result").innerText =
+					"It's a Draw! Click NEW GAME!";
+			}
+		} else {
+			alert("Click the NEW GAME button to start again");
+		}
+	}
 
-    function playAI() {
-        let nextMove = miniMax(symbol, ai);
-        let nextId = "canvas" + (nextMove.id + 1);
-        const box = document.getElementById(nextId);
-        const context = box.getContext("2d");
+	function handleBestMove(newSymbol, player) {
+		const empty = getEmptyBoxPositions(newSymbol);
 
-        if (!gameOver) {
-            drawXorO(context, ai, box);
-            if (winnerCheck(symbol, ai)) {
-                document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
-                gameOver = true;
-            } else if (turn >= 9) {
-                document.getElementById("result").innerText = "It's a Draw! Click NEW GAME!";
-            }
-        } else {
-            alert("Click the NEW GAME button to start again");
-        }
-    }
+		if (winnerCheck(newSymbol, humanPlayer)) {
+			return { score: -10 };
+		} else if (winnerCheck(newSymbol, ai)) {
+			return { score: 10 };
+		} else if (empty.length === 0) {
+			return { score: 0 };
+		}
 
-    function miniMax(newSymbol, player) {
-        const empty = emptyBoxes(newSymbol);
+		const possibleMoves = empty.map((emptyIndex) => {
+			const currentMove = { id: emptyIndex };
+			newSymbol[emptyIndex] = player;
 
-        if (winnerCheck(newSymbol, humanPlayer)) {
-            return { score: -10 };
-        } else if (winnerCheck(newSymbol, ai)) {
-            return { score: 10 };
-        } else if (empty.length === 0) {
-            return { score: 0 };
-        }
+			const result =
+				player === ai
+					? handleBestMove(newSymbol, humanPlayer)
+					: handleBestMove(newSymbol, ai);
 
-        const possibleMoves = empty.map(emptyIndex => {
-            const currentMove = { id: emptyIndex };
-            newSymbol[emptyIndex] = player;
+			currentMove.score = result.score;
+			newSymbol[emptyIndex] = "";
 
-            const result = (player === ai) 
-                ? miniMax(newSymbol, humanPlayer) 
-                : miniMax(newSymbol, ai);
+			return currentMove;
+		});
 
-            currentMove.score = result.score;
-            newSymbol[emptyIndex] = "";
-
-            return currentMove;
-        });
-
-        return player === ai 
-            ? possibleMoves.reduce((best, move) => move.score > best.score ? move : best)
-            : possibleMoves.reduce((best, move) => move.score < best.score ? move : best);
-    }
+		return player === ai
+			? possibleMoves.reduce((best, move) =>
+					move.score > best.score ? move : best,
+			  )
+			: possibleMoves.reduce((best, move) =>
+					move.score < best.score ? move : best,
+			  );
+	}
 };
-

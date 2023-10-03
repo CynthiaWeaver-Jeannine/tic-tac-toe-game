@@ -40,6 +40,7 @@ h4#result {
 	margin-bottom: 30px;
 }
 
+/* game styles */
 .wrapper {
 	min-height: 100vh;
 	display: flex;
@@ -51,6 +52,10 @@ canvas {
 	text-align: center;
 	display: block;
 	float: left;
+}
+
+canvas:hover {
+	background-color: #def0eb;
 }
 
 #game {
@@ -69,9 +74,10 @@ canvas {
 	max-height: 314px;
 	float: left;
 	border: 3px solid #0f7d62;
-	border-bottom: px solid #0f7d62;
+	border-bottom: 4px solid #0f7d62;
 }
 
+/* game info and button styles*/
 #gameInfo {
 	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 	position: relative;
@@ -110,18 +116,11 @@ button {
 	border-radius: 3px;
 }
 
-canvas:hover {
-	background-color: #def0eb;
-}
-
 button:hover {
 	background: #9bf0db;
 }
 
-.site-footer a:hover {
-	color: rgb(136, 174, 246);
-	text-decoration: underline;
-}
+/* footer styles */
 .site-footer {
 	position: fixed;
 	bottom: 0;
@@ -144,11 +143,13 @@ button:hover {
 	text-decoration: none;
 }
 
-@media (max-width: 768px) {
-	.game-container {
-		flex-direction: row;
-	}
+.site-footer a:hover {
+	color: rgb(136, 174, 246);
+	text-decoration: underline;
+}
 
+/* media queries */
+@media (max-width: 768px) {
 	.game-container {
 		display: flex;
 		flex-direction: column;

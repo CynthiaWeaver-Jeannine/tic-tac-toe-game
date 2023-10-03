@@ -19,7 +19,7 @@ window.onload = function () {
 	let turn = 1;
 	let gameOver = false;
 
-	document.getElementById("new").addEventListener("click", newGame);
+	document.getElementById("newGameButton").addEventListener("click", newGame);
 	document.getElementById("board").addEventListener("click", function (e) {
 		handleBoxClick(e.target.id);
 	});
@@ -102,7 +102,10 @@ window.onload = function () {
 	function getEmptyBoxPositions(currentBoardState) {
 		const emptyPositions = [];
 		for (let i = 0; i < currentBoardState.length; i++) {
-			if (currentBoardState[i] !== humanSymbol && currentBoardState[i] !== aiSymbol) {
+			if (
+				currentBoardState[i] !== humanSymbol &&
+				currentBoardState[i] !== aiSymbol
+			) {
 				emptyPositions.push(i);
 			}
 		}
@@ -130,7 +133,16 @@ window.onload = function () {
 		}
 	}
 
-	function evaluateBestMove(currentBoardState, player) {
+	/* 
+		Minimax algorithm with alpha-beta pruning
+		https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+	*/
+	function evaluateBestMove(
+		currentBoardState,
+		player,
+		alpha = -Infinity,
+		beta = Infinity,
+	) {
 		const emptyPositions = getEmptyBoxPositions(currentBoardState);
 
 		if (checkForWinner(currentBoardState, humanSymbol)) {
@@ -141,27 +153,58 @@ window.onload = function () {
 			return { score: 0 };
 		}
 
-		const potentialMoves = emptyPositions.map((emptyIndex) => {
-			const currentPotentialMove = { id: emptyIndex };
-			currentBoardState[emptyIndex] = player;
+		if (player === aiSymbol) {
+			let bestScore = -Infinity;
+			let bestMove;
 
-			const result =
-				player === aiSymbol
-					? evaluateBestMove(currentBoardState, humanSymbol)
-					: evaluateBestMove(currentBoardState, ai);
+			for (let emptyIndex of emptyPositions) {
+				currentBoardState[emptyIndex] = player;
+				let currentScore = evaluateBestMove(
+					currentBoardState,
+					humanSymbol,
+					alpha,
+					beta,
+				).score;
+				currentBoardState[emptyIndex] = "";
 
-			currentPotentialMove.score = result.score;
-			currentBoardState[emptyIndex] = "";
+				if (currentScore > bestScore) {
+					bestScore = currentScore;
+					bestMove = { id: emptyIndex, score: bestScore };
+				}
 
-			return currentPotentialMove;
-		});
+				alpha = Math.max(alpha, bestScore);
+				if (beta <= alpha) {
+					break;
+				}
+			}
 
-		return player === aiSymbol
-			? potentialMoves.reduce((best, move) =>
-					move.score > best.score ? move : best,
-			  )
-			: potentialMoves.reduce((best, move) =>
-					move.score < best.score ? move : best,
-			  );
+			return bestMove;
+		} else {
+			let bestScore = Infinity;
+			let bestMove;
+
+			for (let emptyIndex of emptyPositions) {
+				currentBoardState[emptyIndex] = player;
+				let currentScore = evaluateBestMove(
+					currentBoardState,
+					aiSymbol,
+					alpha,
+					beta,
+				).score;
+				currentBoardState[emptyIndex] = "";
+
+				if (currentScore < bestScore) {
+					bestScore = currentScore;
+					bestMove = { id: emptyIndex, score: bestScore };
+				}
+
+				beta = Math.min(beta, bestScore);
+				if (beta <= alpha) {
+					break; 
+				}
+			}
+
+			return bestMove;
+		}
 	}
 };

@@ -208,72 +208,72 @@ window.onload = function () {
 			}
 			return bestMove;
 		}
+	}
 
-		// handle the AI's move; check for winner or draw
-		function handleAIMove() {
-			let nextId;
-			const gameMode = document.getElementById("gameMode").value;
+	// handle the AI's move; check for winner or draw
+	function handleAIMove() {
+		let nextId;
+		const gameMode = document.getElementById("gameMode").value;
 
-			switch (gameMode) {
-				case "classic":
-					const nextMove = evaluateBestMove(boardSymbols, aiSymbol);
-					nextId = "canvas" + (nextMove.id + 1);
-					break;
-				case "easy":
-					nextId = getEasyMove();
-					break;
-				case "random":
-					nextId = getRandomMove();
-					break;
-				default:
-					console.error("Unknown game mode:", gameMode);
-					alert("Invalid game mode selected. Please choose a valid game mode.");
-					return;
-			}
+		switch (gameMode) {
+			case "classic":
+				const nextMove = evaluateBestMove(boardSymbols, aiSymbol);
+				nextId = "canvas" + (nextMove.id + 1);
+				break;
+			case "easy":
+				nextId = getEasyMove();
+				break;
+			case "random":
+				nextId = getRandomMove();
+				break;
+			default:
+				console.error("Unknown game mode:", gameMode);
+				alert("Invalid game mode selected. Please choose a valid game mode.");
+				return;
+		}
 
-			const box = document.getElementById(nextId);
-			const context = box.getContext("2d");
+		const box = document.getElementById(nextId);
+		const context = box.getContext("2d");
 
+		if (!gameOver) {
 			if (!gameOver) {
-				if (!gameOver) {
-					if (turn % 2 !== 0) {
-						drawSymbolOnBox(context, humanSymbol, box);
-						drawSymbolOnBox(context, aiSymbol, box);
-						if (checkForWinner(boardSymbols, aiSymbol)) {
-							document.getElementById("result").innerText =
-								"Max Won! Click NEW GAME!";
-							gameOver = true;
-						} else if (turn >= 9) {
-							document.getElementById("result").innerText =
-								"It's a Draw! Click NEW GAME!";
-						}
-					} else {
-						alert("The game is over. Click NEW GAME to play!");
+				if (turn % 2 !== 0) {
+					drawSymbolOnBox(context, humanSymbol, box);
+					drawSymbolOnBox(context, aiSymbol, box);
+					if (checkForWinner(boardSymbols, aiSymbol)) {
+						document.getElementById("result").innerText =
+							"Max Won! Click NEW GAME!";
+						gameOver = true;
+					} else if (turn >= 9) {
+						document.getElementById("result").innerText =
+							"It's a Draw! Click NEW GAME!";
 					}
-				}
-
-				function getEasyMove() {
-					// Check if there's a winning move for AI
-					for (let i = 0; i < boardSymbols.length; i++) {
-						if (!boardSymbols[i]) {
-							boardSymbols[i] = aiSymbol;
-							if (checkForWinner(boardSymbols, aiSymbol)) {
-								return "canvas" + (i + 1);
-							}
-							boardSymbols[i] = "";
-						}
-					}
-
-					// If no winning move, choose a random empty box
-					return getRandomMove();
-				}
-
-				function getRandomMove() {
-					const emptyPositions = getEmptyBoxPositions(boardSymbols);
-					const randomIndex = Math.floor(Math.random() * emptyPositions.length);
-					return "canvas" + (emptyPositions[randomIndex] + 1);
+				} else {
+					alert("The game is over. Click NEW GAME to play!");
 				}
 			}
 		}
+	}
+
+	function getEasyMove() {
+		// Check if there's a winning move for AI
+		for (let i = 0; i < boardSymbols.length; i++) {
+			if (!boardSymbols[i]) {
+				boardSymbols[i] = aiSymbol;
+				if (checkForWinner(boardSymbols, aiSymbol)) {
+					return "canvas" + (i + 1);
+				}
+				boardSymbols[i] = "";
+			}
+		}
+
+		// If no winning move, choose a random empty box
+		return getRandomMove();
+	}
+
+	function getRandomMove() {
+		const emptyPositions = getEmptyBoxPositions(boardSymbols);
+		const randomIndex = Math.floor(Math.random() * emptyPositions.length);
+		return "canvas" + (emptyPositions[randomIndex] + 1);
 	}
 };

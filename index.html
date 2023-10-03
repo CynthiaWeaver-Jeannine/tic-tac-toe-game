@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Tic Tac Toe game against an unbeatable AI named Max.">
+    <meta name="description" content="Tic Tac Toe game with easy, hard and random modes.">
     <title>Tic Tac Toe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -19,8 +19,8 @@
         <div class="gameModeContainer">
         <span id="gameModeInstruction">Choose your play style:</span>
         <select id="gameMode">
-            <option value="classic" selected>Classic Mode</option>
-            <option value="easy">Easy Mode</option>
+            <option value="easy" selected>Easy Mode </option>
+            <option value="classic">Hard Mode</option>
             <option value="random">Random Mode</option>
         </select>
         </div> 
@@ -45,12 +45,13 @@
                 </div>
                <button id="newGameButton">NEW GAME</button>
                     <div id="gameInfo">
-                        <h3>Game Info</h3>
-                        <p>You get the first move.</p>
-                        <p>Max plays "O".</p>
-                        <p>Play intelligently to block Max.</p>
-                        <p>If you succeed in blocking Max, the game is a draw.</p>
-                        <p>Max is an unbeatable AI.</p>
+                    <h3>Game Info</h3>
+                    <p><strong>Starting Move:</strong> You begin as "X", and you always play first!</p>
+                    <p><strong>Your Opponent:</strong> Max plays as "O".</p>
+                    <p><strong>To Win:</strong> Connect 3 of your symbols.</p>
+                    <p><strong>Pro Tip:</strong> Always be on the lookout to block Max's moves. Watch out! He's got some strategies up his sleeve!</p>
+
+                        
                     </div>
             </div>
                     

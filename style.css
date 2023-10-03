@@ -7,19 +7,16 @@
 
 html {
 	background-color: papayawhip;
+	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
+
+/* header styles */
 header {
 	text-align: center;
 	margin: 50px;
 	padding: 0;
-}
-
-/* header styles */
-h1#h1#gameTitle,
-h2#gameSubtitle {
-	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-		"Lucida Sans", Arial, sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 h1#gameTitle {
@@ -40,7 +37,6 @@ h2#gameSubtitle {
 
 h4#result {
 	font-size: 30px;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	color: #349e83;
 	text-align: center;
 	margin-bottom: 30px;
@@ -57,7 +53,6 @@ h4#result {
 
 #gameModeInstruction {
 	font-size: 25px;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	font-weight: bold;
 	margin-bottom: 10px;
 	color: #270e28;
@@ -68,10 +63,8 @@ h4#result {
 	background-color: #def0eb;
 	padding: 5px 10px;
 	font-size: 20px;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;;
 	border: 2px solid #270e28;
 	border-radius: 5px;
-	
 }
 
 /* game styling */
@@ -120,7 +113,7 @@ canvas:hover {
 	text-align: left;
 	display: inline-block;
 	padding-left: 20px;
-	font-size: 25px;
+	font-size: 20px;
 	color: #270e28;
 }
 
@@ -131,7 +124,7 @@ h3 {
 }
 
 p {
-	font-size: 20px;
+	font-size: 18px;
 }
 
 button {
@@ -140,8 +133,6 @@ button {
 	height: 50px;
 	font-size: 30px;
 	font-weight: bold;
-	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-		"Lucida Sans", Arial, sans-serif;
 	font-style: italic;
 	background-color: #349e83;
 	color: white;

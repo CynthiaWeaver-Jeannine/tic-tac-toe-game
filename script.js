@@ -1,20 +1,9 @@
 /** @format */
 
 window.onload = function () {
-	let num;
-	let box;
-	let context;
-	let turn = 1;
-	let filled;
-	let symbol;
-	let winner;
-	let gameOver = false;
 	const humanPlayer = "X";
 	const ai = "O";
-	let result = {};
-	filled = new Array();
-	symbol = new Array();
-	winner = [
+	const winner = [
 		[0, 1, 2],
 		[3, 4, 5],
 		[6, 7, 8],
@@ -24,82 +13,94 @@ window.onload = function () {
 		[0, 4, 8],
 		[2, 4, 6],
 	];
-	for (let i = 0; i < 9; i++) {
-		filled[i] = false;
-		symbol[i] = "";
-	}
- 
-	let n = document.getElementById("new");
-	n.addEventListener("click", newGame);
 
-	function newGame() {		
-		for (let i = 1; i <= 9; i++) {
-			const canvas = document.getElementById("canvas" + i);
-			context = canvas.getContext("2d");
-			console.log(context)
+	let filled = Array(9).fill(false);
+	let symbol = Array(9).fill("");
+	let turn = 1;
+	let gameOver = false;
 
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			canvas.style.backgroundColor = ""; 
-		}
-
-		
-		filled = new Array(9).fill(false);
-		symbol = new Array(9).fill("");
-		turn = 1;
-		gameOver = false;
-
-		document.getElementById("result").innerText = "";
-	}
-
-
+	document.getElementById("new").addEventListener("click", newGame);
 	document.getElementById("board").addEventListener("click", function (e) {
 		boxClick(e.target.id);
 	});
 
-	function drawX() {
-		box.style.backgroundColor = "#fb5181";
-		context.beginPath();
-		context.moveTo(15, 15);
-		context.lineTo(85, 85);
-		context.moveTo(85, 15);
-		context.lineTo(15, 85);
-		context.lineWidth = 21;
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.stroke();
-		context.closePath();
-
-		symbol[num - 1] = humanPlayer;
-	}
-
-	function drawO(next) {
-		box.style.backgroundColor = "#71e29c";
-		context.beginPath();
-		context.arc(50, 50, 35, 0, 2 * Math.PI);
-		context.lineWidth = 20;
-		context.strokeStyle = "white";
-		context.stroke();
-		context.closePath();
-
-		symbol[next] = ai;
-	}
-
-	function winnerCheck(symbol, player) {
-		for (let i = 0; i < winner.length; i++) {
-			if (
-				symbol[winner[i][0]] == player &&
-				symbol[winner[i][1]] == player &&
-				symbol[winner[i][2]] == player
-			) {
-				return true;
-			}
+	function newGame() {
+		for (let i = 1; i <= 9; i++) {
+			const canvas = document.getElementById("canvas" + i);
+			const context = canvas.getContext("2d");
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			canvas.style.backgroundColor = "";
 		}
-		return false;
+
+		filled.fill(false);
+		symbol.fill("");
+		turn = 1;
+		gameOver = false;
+		document.getElementById("result").innerText = "";
 	}
 
+	function boxClick(boxId) {
+		const num = boxId.replace("canvas", "") - 1;
+		const box = document.getElementById(boxId);
+		const context = box.getContext("2d");
+
+		if (!filled[num] && !gameOver) {
+			if (turn % 2 !== 0) {
+				drawXorO(context, humanPlayer, box);
+				if (winnerCheck(symbol, humanPlayer)) {
+					document.getElementById(
+						"result",
+					).innerText = `Player ${humanPlayer} won!`;
+					gameOver = true;
+				} else if (turn >= 9) {
+					document.getElementById("result").innerText = "It's a Draw!";
+				} else {
+					playAI();
+				}
+			}
+		} else {
+			alert("This box was already filled. Please click on another one.");
+		}
+	}
+
+	function drawXorO(context, player, box) {
+		if (player === humanPlayer) {
+			box.style.backgroundColor = "#fb5181";
+			context.beginPath();
+			context.moveTo(15, 15);
+			context.lineTo(85, 85);
+			context.moveTo(85, 15);
+			context.lineTo(15, 85);
+			context.lineWidth = 21;
+			context.lineCap = "round";
+			context.strokeStyle = "white";
+			context.stroke();
+			context.closePath();
+		} else {
+			box.style.backgroundColor = "#71e29c";
+			context.beginPath();
+			context.arc(50, 50, 35, 0, 2 * Math.PI);
+			context.lineWidth = 20;
+			context.strokeStyle = "white";
+			context.stroke();
+			context.closePath();
+		}
+		symbol[parseInt(box.id.replace("canvas", "")) - 1] = player;
+		filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
+		turn++;
+	}
+
+	function winnerCheck(board, player) {
+		return winner.some(
+			(combination) =>
+				board[combination[0]] === player &&
+				board[combination[1]] === player &&
+				board[combination[2]] === player,
+		);
+	}
 	//human player box click
 	function boxClick(numId) {
-		box = document.getElementById(numId);		
+		box = document.getElementById(numId);
 		context = box.getContext("2d");
 		switch (numId) {
 			case "canvas1":
@@ -188,7 +189,8 @@ window.onload = function () {
 
 				//win condition
 				if (winnerCheck(symbol, symbol[nextMove.id]) === true) {
-					document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
+					document.getElementById("result").innerText =
+						"Max Won! Click NEW GAME!";
 					gameOver = true;
 				}
 

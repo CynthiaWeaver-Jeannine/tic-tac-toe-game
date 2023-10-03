@@ -27,6 +27,12 @@ h1#gameTitle {
 	color: #270e28;
 }
 
+h1,
+#gameMode {
+	width: 70%;
+	margin: 0 auto;
+}
+
 h2#gameSubtitle {
 	font-size: 30px;
 	color: #349e83;
@@ -34,13 +40,41 @@ h2#gameSubtitle {
 
 h4#result {
 	font-size: 30px;
-	font-family: Verdana, Geneva, Tahoma, sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	color: #349e83;
 	text-align: center;
 	margin-bottom: 30px;
 }
 
-/* game styles */
+/* game mode styling */
+.gameModeContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 70%;
+	margin: 0 auto;
+}
+
+#gameModeInstruction {
+	font-size: 25px;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-weight: bold;
+	margin-bottom: 10px;
+	color: #270e28;
+}
+
+#gameMode {
+	width: 100%;
+	background-color: #def0eb;
+	padding: 5px 10px;
+	font-size: 20px;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;;
+	border: 2px solid #270e28;
+	border-radius: 5px;
+	
+}
+
+/* game styling */
 .wrapper {
 	min-height: 100vh;
 	display: flex;

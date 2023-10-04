@@ -213,7 +213,7 @@ window.onload = function () {
 			drawSymbolOnBox(context, humanSymbol, box);
 			if (hasWon(boardSymbols, humanSymbol)) {
 				document.getElementById("result"
-	,			).innerText = `Player ${humanSymbol} won! Click NEW GAME!`;
+	,			).innerText = `You won! Click NEW GAME!`;
 				humanWinCount++;
 				document.getElementById("humanWins").innerText = humanWinCount;				
 				gameOver = true;

@@ -17,7 +17,7 @@
 - [Contact](#contact)
 
 ## Introduction
-This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. You have a choice between easy, hard, and random modes. When you click "New Game", the starting player is chosen randomly. The game board is responsive and will adjust to the size of your screen. Click the "New Game" button to start a new game. The game is built with HTML, CSS, and JavaScript, using minimax algorithm for the AI. The scores are kept for each player, and the scores can be reset at any time.
+This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. You have a choice between easy, hard, and random modes. When you click "New Game", the starting player is chosen randomly. The game board is responsive and will adjust to the size of your screen. The game is built with HTML, CSS, and JavaScript, using minimax algorithm for the AI. The scores are kept for each player, and the scores can be reset at any time.
 
 ## Features
 - Interactive Tic Tac Toe gameplay.

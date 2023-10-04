@@ -214,7 +214,7 @@ window.onload = function () {
 			if (hasWon(boardSymbols, humanSymbol)) {
 				document.getElementById(
 					"result",
-				).innerText = `Player ${humanSymbol} won! Click NEW GAME!`;
+				).innerText = "You won! Click NEW GAME!";
 				gameOver = true;
 			} else {
 				checkForDraw();

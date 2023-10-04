@@ -149,7 +149,7 @@ canvas:hover {
 	height: 318px;
 	text-align: left;
 	display: inline-block;
-	padding-left: 20px;
+	padding-left: 25px;
 	font-size: 16px;
 	color: #270e28;
 	margin-top: 5px;
@@ -159,7 +159,7 @@ p{
 	margin-top: 5px;
 }
 button {
-	margin-left: 35px;
+	margin-left: 25px;
 	width: 200px;
 	height: 50px;
 	font-size: 30px;

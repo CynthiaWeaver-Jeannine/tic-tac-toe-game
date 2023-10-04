@@ -10,7 +10,6 @@ html {
 	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
-
 /* header styles */
 header {
 	text-align: center;
@@ -101,12 +100,11 @@ canvas:hover {
 	max-height: 314px;
 	float: left;
 	border: 3px solid #0f7d62;
-	border-bottom: 4px solid #0f7d62;
+	border-bottom: 5px solid #0f7d62;
 }
 
 /* game info and button styles*/
 #gameInfo {
-	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 	position: relative;
 	width: 318px;
 	height: 318px;

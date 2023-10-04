@@ -55,13 +55,15 @@ window.onload = function () {
 	}
 
 	function isBoardFull(board) {
-		return board.every(cell => cell === "X" || cell === "O");
+		return board.every((cell) => cell === "X" || cell === "O");
 	}
+
 	// initial state
 	let filled = Array(9).fill(false);
 	let boardSymbols = Array(9).fill("");
 	let turn = 1;
 	let gameOver = false;
+
 	// event listeners
 	document.getElementById("gameMode").addEventListener("change", function (e) {
 		const validModes = ["classic", "easy", "random"];
@@ -75,6 +77,7 @@ window.onload = function () {
 		handleBoxClick(e.target.id);
 	});
 
+	//Minimax algorithm with alpha-beta pruning
 	function evaluateBestMove(
 		currentBoardState,
 		player,
@@ -82,7 +85,6 @@ window.onload = function () {
 		beta = Infinity,
 	) {
 		const emptyPositions = getEmptyBoxPositions(currentBoardState);
-
 		if (hasWon(currentBoardState, humanSymbol)) {
 			return { score: -10 };
 		}
@@ -92,11 +94,9 @@ window.onload = function () {
 		if (emptyPositions.length === 0) {
 			return { score: 0 };
 		}
-
 		if (player === aiSymbol) {
 			let bestScore = -Infinity;
 			let bestMove;
-
 			for (let emptyIndex of emptyPositions) {
 				currentBoardState[emptyIndex] = player;
 				let currentScore = evaluateBestMove(
@@ -106,12 +106,10 @@ window.onload = function () {
 					beta,
 				).score;
 				currentBoardState[emptyIndex] = "";
-
 				if (currentScore > bestScore) {
 					bestScore = currentScore;
 					bestMove = { id: emptyIndex, score: bestScore };
 				}
-
 				alpha = Math.max(alpha, bestScore);
 				if (beta <= alpha) {
 					break;
@@ -121,7 +119,6 @@ window.onload = function () {
 		} else {
 			let bestScore = Infinity;
 			let bestMove;
-
 			for (let emptyIndex of emptyPositions) {
 				currentBoardState[emptyIndex] = player;
 				let currentScore = evaluateBestMove(
@@ -131,12 +128,10 @@ window.onload = function () {
 					beta,
 				).score;
 				currentBoardState[emptyIndex] = "";
-
 				if (currentScore < bestScore) {
 					bestScore = currentScore;
 					bestMove = { id: emptyIndex, score: bestScore };
 				}
-
 				beta = Math.min(beta, bestScore);
 				if (beta <= alpha) {
 					break;
@@ -158,20 +153,7 @@ window.onload = function () {
 		}
 		return emptyPositions;
 	}
-function getEasyMove() {
-	// Check if there's a winning move for AI
-	for (let i = 0; i < boardSymbols.length; i++) {
-		if (!boardSymbols[i]) {
-			boardSymbols[i] = aiSymbol;
-			if (checkForWinner(boardSymbols, aiSymbol)) {
-				return "canvas" + (i + 1);
-			}
-			boardSymbols[i] = "";
-		}
-	}
-	// If no winning move, choose a random empty box
-	return getRandomMove();
-}
+
 	// reset the game
 	function newGame() {
 		for (let i = 1; i <= 9; i++) {
@@ -181,13 +163,13 @@ function getEasyMove() {
 			canvas.style.backgroundColor = "";
 			gameOver = false;
 		}
-
 		filled.fill(false);
 		boardSymbols.fill("");
 		turn = 1;
 		gameOver = false;
 		document.getElementById("result").innerText = "";
 	}
+
 	function checkForDraw() {
 		if (isBoardFull(boardSymbols)) {
 			document.getElementById("result").innerText =
@@ -195,27 +177,25 @@ function getEasyMove() {
 			gameOver = true;
 		}
 	}
+	
 	// handle user's box clicks; manage the game state
 	function handleBoxClick(boxId) {
 		const num = parseInt(boxId.replace("canvas", "")) - 1;
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
-
 		if (filled[num] || gameOver) {
 			alert(
-				"This box was already filled or the game is over. Please click on another box or start a new game.",
+				"If the box is filled, choose a differnt one. \nIf the game is over, click NEW GAME!",
 			);
 			return;
 		}
-
 		if (turn % 2 !== 0) {
-			// Human's turn
+			// Human player's turn
 			drawSymbolOnBox(context, humanSymbol, box);
-
 			if (hasWon(boardSymbols, humanSymbol)) {
 				document.getElementById(
 					"result",
-				).innerText = `Player ${humanSymbol} won!`;
+				).innerText = `Player ${humanSymbol} won! Click NEW GAME!`;
 				gameOver = true;
 			} else {
 				checkForDraw();
@@ -225,26 +205,16 @@ function getEasyMove() {
 			}
 		}
 	}
-	
-	
-	
-
-	
-	//Minimax algorithm with alpha-beta pruning	
-	
 
 	function handleAIMove() {
 		const boxId = getAIMove();
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
-
 		if (gameOver) {
 			alert("The game is over. Click NEW GAME to play again!");
 			return;
 		}
-
 		drawSymbolOnBox(context, aiSymbol, box);
-
 		if (hasWon(boardSymbols, aiSymbol)) {
 			document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
 			gameOver = true;
@@ -274,13 +244,11 @@ function getEasyMove() {
 			if (!boardSymbols[i]) {
 				boardSymbols[i] = aiSymbol;
 				if (hasWon(boardSymbols, aiSymbol)) {
-					// Changed this line
 					return "canvas" + (i + 1);
 				}
 				boardSymbols[i] = "";
 			}
 		}
-		// If no winning move, choose a random empty box
 		return getRandomMove();
 	}
 

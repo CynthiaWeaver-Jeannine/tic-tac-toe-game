@@ -70,17 +70,17 @@ h4#result {
 /*scoreboard styling */
 #scoreboard {
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',sans-serif;
-	font-size: 18px;
+	font-size: 15px;
 }
 .scoreboardTitle {
 	font-size: 20px;
-	color: #270e28;
+	color: #084838;
 	text-align: center;
 	margin-bottom: 10px;
+	margin-left: 10px;
 }
 .scoreboard {
 	margin-top: 5px;
-	font-size: 1rem;
 	text-align: center;
 }
 
@@ -88,8 +88,17 @@ h4#result {
 	display: inline-block;
 	margin: 0 10px;
 	padding: 5px;
-	background-color: #f4f4f4;
 	border-radius: 5px;
+}
+
+
+#resetButton {
+	margin: 5px;
+	margin-left: 0;
+	width: auto;
+	height: auto;
+	padding: 5px 10px;
+	font-size: 15px;
 }
 
 /* game styling */
@@ -203,6 +212,13 @@ button:hover {
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+	}
+	h1#gameTitle {
+		font-size: 35px;
+	}
+
+	h2#gameSubtitle {
+		font-size: 25px;
 	}
 
 	#game {

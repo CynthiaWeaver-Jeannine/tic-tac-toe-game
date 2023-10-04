@@ -17,17 +17,18 @@
 - [Contact](#contact)
 
 ## Introduction
-This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. Max is an unbeatable AI, so you will need to play intelligently to achieve a draw.
+This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. You have a choice between easy, hard, and random modes. When you click "New Game", the starting player is chosen randomly. The game board is responsive and will adjust to the size of your screen. Click the "New Game" button to start a new game. The game is built with HTML, CSS, and JavaScript, using minimax algorithm for the AI. The scores are kept for each player, and the scores can be reset at any time.
 
 ## Features
 - Interactive Tic Tac Toe gameplay.
 - Play against an AI opponent (Max).
 - Simple, intuitive, and responsive user interface.
 - Three modes of play: easy, hard, and random.
+- Scores are kept for each player.
 
 ## How to Play
-1. You get the first move, and you play as "X."
-2. Max plays as "O."
+1. Click the "New Game" button, and the starting player is chosen randomly.
+2. You play as "X"; Max plays as "O."
 3. To make a move, click on one of the empty squares on the game board.
 4. Play strategically to block Max.
 5. You win when you get three consecutive boxes.

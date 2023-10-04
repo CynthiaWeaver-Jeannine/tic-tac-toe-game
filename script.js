@@ -4,6 +4,8 @@ window.onload = function () {
 	// tic-tac-toe game configuration
 	const humanSymbol = "X";
 	const aiSymbol = "O";
+	let humanWinCount = 0;
+	let aiWinCount = 0;
 
 	function hasWon(board, player) {
 		const winningCombinations = [
@@ -18,7 +20,7 @@ window.onload = function () {
 		];
 		return checkForWinner(board, player);
 		// check if the player has won
-		function checkForWinner(board, player) {
+	function checkForWinner(board, player) {
 			return winningCombinations.some(
 				(combination) =>
 					board[combination[0]] === player &&
@@ -165,9 +167,14 @@ window.onload = function () {
 		}
 		filled.fill(false);
 		boardSymbols.fill("");
-		turn = 1;
-		gameOver = false;
 		document.getElementById("result").innerText = "";
+		const randomPlayer = Math.random() < 0.5 ? "human" : "ai";
+		if (randomPlayer === "human" ){
+			turn = 1;
+		} else {
+			turn = 0;
+			handleAIMove();
+		}
 	}
 
 	function checkForDraw() {
@@ -177,7 +184,7 @@ window.onload = function () {
 			gameOver = true;
 		}
 	}
-	
+
 	// handle user's box clicks; manage the game state
 	function handleBoxClick(boxId) {
 		const num = parseInt(boxId.replace("canvas", "")) - 1;
@@ -193,9 +200,10 @@ window.onload = function () {
 			// Human player's turn
 			drawSymbolOnBox(context, humanSymbol, box);
 			if (hasWon(boardSymbols, humanSymbol)) {
-				document.getElementById(
-					"result",
-				).innerText = `Player ${humanSymbol} won! Click NEW GAME!`;
+				document.getElementById("result"
+	,			).innerText = `Player ${humanSymbol} won! Click NEW GAME!`;
+				humanWinCount++;
+				document.getElementById("humanWins").innerText = humanWinCount;				
 				gameOver = true;
 			} else {
 				checkForDraw();
@@ -217,6 +225,8 @@ window.onload = function () {
 		drawSymbolOnBox(context, aiSymbol, box);
 		if (hasWon(boardSymbols, aiSymbol)) {
 			document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
+			aiWinCount++;
+			document.getElementById("aiWins").innerText = aiWinCount;
 			gameOver = true;
 		} else {
 			checkForDraw();

@@ -67,6 +67,31 @@ h4#result {
 	border-radius: 5px;
 }
 
+/*scoreboard styling */
+#scoreboard {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',sans-serif;
+	font-size: 18px;
+}
+.scoreboardTitle {
+	font-size: 20px;
+	color: #270e28;
+	text-align: center;
+	margin-bottom: 10px;
+}
+.scoreboard {
+	margin-top: 5px;
+	font-size: 1rem;
+	text-align: center;
+}
+
+.score-item {
+	display: inline-block;
+	margin: 0 10px;
+	padding: 5px;
+	background-color: #f4f4f4;
+	border-radius: 5px;
+}
+
 /* game styling */
 .wrapper {
 	min-height: 100vh;

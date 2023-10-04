@@ -17,7 +17,7 @@
 - [Contact](#contact)
 
 ## Introduction
-This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. You have a choice between easy, hard, and random modes. When you click "New Game", the starting player is chosen randomly. The game board is responsive and will adjust to the size of your screen. The game is built with HTML, CSS, and JavaScript, using minimax algorithm for the AI. The scores are kept for each player, and the scores can be reset at any time.
+This is a simple Tic Tac Toe game that allows you to play against an AI opponent named Max. You have a choice between easy, hard, and random modes. When you click "New Game", the starting player is chosen randomly. The game is responsive and will adjust to the size of your screen. The game is built with HTML, CSS, and JavaScript, using minimax algorithm for the AI. The scores are kept for each player, and the scores can be reset at any time.
 
 ## Features
 - Interactive Tic Tac Toe gameplay.
@@ -71,7 +71,7 @@ If you have any questions, suggestions, or if your are interested in collaborati
 [LinkedIn: Cynthia Weaver's LinkedIn Profile](https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bf625PYHuQgidhKLhsTuIuQ%3D%3D)  
 [GitHub Repository for this game](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game)    
 
-![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/be1f1b5f-3f76-407f-8164-406ac18c7173)
+![tic tac toe player wins](image-2.png)
 
 - [Go to top of page](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/blob/main/README.md#tic-tac-toe-game)
    

@@ -35,6 +35,7 @@ h2#gameSubtitle {
 }
 
 h4#result {
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	font-size: 30px;
 	color: #349e83;
 	text-align: center;
@@ -155,7 +156,6 @@ button:hover {
 }
 
 .site-footer p {
-	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 	display: inline-block;
 	margin-right: 0, 10px;
 }

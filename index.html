@@ -26,8 +26,8 @@
         <div id="scoreboard">
             <span class="score-reset-button"><button id="resetButton">Reset Scores</button></span>
             <span class="scoreboardTitle">scoreboard:</span>
-            <span class="score-item">Human Wins: <span id="humanWins">0</span></span> 
-            <span class="score-item">AI Wins: <span id="aiWins">0</span></span> 
+            <span class="score-item">Your Wins: <span id="humanWins">0</span></span> 
+            <span class="score-item">Max's Wins: <span id="aiWins">0</span></span> 
             <span class="score-item">Draws: <span id="draws">0</span></span>            
         </div>
 
@@ -53,11 +53,13 @@
                 </div>
                <button id="newGameButton">NEW GAME</button>
                     <div id="gameInfo">
-                    <h3>Game Info</h3>
-                    <p><strong>Starting Move:</strong> You begin as "X", and you always play first!</p>
-                    <p><strong>Your Opponent:</strong> Max plays as "O".</p>
-                    <p><strong>To Win:</strong> Connect 3 of your symbols.</p>
-                    <p><strong>Pro Tip:</strong> Always be on the lookout to block Max's moves. Watch out! He's got some strategies up his sleeve!</p>
+                    <h5 id="gameInfoTitle">Game Info</h5>
+                    <p><strong>Starting:</strong> The starting player is chosen at random in each new game.</p>
+                    <p><strong>Moves:</strong> You play as <strong>X</strong> against Max as <strong>O</strong>.</p>
+                    <p><strong>Scoreboard:</strong> The scoreboard keeps track of your wins, Max's wins, and draws. Reset at any time.</p>
+                    <p><strong>To Win:</strong> Connect 3 of your symbols in a row, a column, or a diagonal.</p>
+                    <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>
+
 
                         
                     </div>

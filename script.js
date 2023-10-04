@@ -78,6 +78,16 @@ window.onload = function () {
 	document.getElementById("board").addEventListener("click", function (e) {
 		handleBoxClick(e.target.id);
 	});
+	//score reset
+	document.getElementById("resetButton").addEventListener("click", function () {
+		humanWinCount = 0;
+		aiWinCount = 0;
+		// Update score display
+		document.getElementById("humanWins").innerText = humanWinCount;
+		document.getElementById("aiWins").innerText = aiWinCount;
+		document.getElementById("draws").innerText = "0";
+	});
+
 
 	//Minimax algorithm with alpha-beta pruning
 	function evaluateBestMove(
@@ -182,6 +192,8 @@ window.onload = function () {
 			document.getElementById("result").innerText =
 				"It's a Draw! Click NEW GAME!";
 			gameOver = true;
+			const drawsCount = parseInt(document.getElementById("draws").innerText);
+			document.getElementById("draws").innerText = drawsCount + 1;
 		}
 	}
 

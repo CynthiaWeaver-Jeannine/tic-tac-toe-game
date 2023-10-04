@@ -42,6 +42,11 @@ h4#result {
 	margin-bottom: 30px;
 }
 
+h5#gameInfoTitle {
+	margin-top: 15px;
+	font-size: 18px;
+}
+
 /* game mode styling */
 .gameModeContainer {
 	display: flex;
@@ -90,7 +95,6 @@ h4#result {
 	padding: 5px;
 	border-radius: 5px;
 }
-
 
 #resetButton {
 	margin: 5px;
@@ -146,20 +150,14 @@ canvas:hover {
 	text-align: left;
 	display: inline-block;
 	padding-left: 20px;
-	font-size: 20px;
+	font-size: 16px;
 	color: #270e28;
+	margin-top: 5px;
 }
 
-p,
-h3 {
-	margin: 15px;
-	color: #270e28;
+p{
+	margin-top: 5px;
 }
-
-p {
-	font-size: 18px;
-}
-
 button {
 	margin-left: 35px;
 	width: 200px;
@@ -191,13 +189,14 @@ button:hover {
 
 .site-footer p {
 	display: inline-block;
-	margin-right: 0, 10px;
+	margin-right: 10px;
 }
 
 .site-footer a {
 	font-size: 20px;
 	color: rgb(45, 108, 225);
 	text-decoration: none;
+	padding: 0 5px;
 }
 
 .site-footer a:hover {

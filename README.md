@@ -1,11 +1,12 @@
 # Tic-Tac-Toe Game
 
-![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/3bcf2252-25f4-40ee-ab2b-f46418dfd6cb)
+![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/1a6a5b0a-3b4e-455a-86f5-cdcfe837a9be)
 
 
 
 
-## Test your skills against Max, an unbeatable AI!
+
+## Test your skills against Max, the AI. Choose between Easy, Hard, and Random modes!
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -20,17 +21,19 @@ This is a simple Tic Tac Toe game that allows you to play against an AI opponent
 
 ## Features
 - Interactive Tic Tac Toe gameplay.
-- Play against an unbeatable AI opponent (Max).
-- Simple and intuitive user interface.
+- Play against an AI opponent (Max).
+- Simple, intuitive, and responsive user interface.
+- Three modes of play: easy, hard, and random.
 
 ## How to Play
 1. You get the first move, and you play as "X."
 2. Max plays as "O."
 3. To make a move, click on one of the empty squares on the game board.
 4. Play strategically to block Max.
-5. If you succeed in blocking Max, the game ends in a draw.
+5. You win when you get three consecutive boxes.
 
-   ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/905e72fa-a64d-48b5-80e9-1aa85a1fca89)
+   ![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/bd55e9fd-4363-4676-b19d-aa90a1484e4c)
+
 
 
 
@@ -66,7 +69,9 @@ If you have any questions, suggestions, or if your are interested in collaborati
 
 [cynthiajweaver@live.com](mailto:cynthiajweaver@live.com)  
 [LinkedIn: Cynthia Weaver's LinkedIn Profile](https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Bf625PYHuQgidhKLhsTuIuQ%3D%3D)  
-[GitHub Repository for this game](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game)  
+[GitHub Repository for this game](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game)    
+
+![image](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/assets/132491873/be1f1b5f-3f76-407f-8164-406ac18c7173)
 
 - [Go to top of page](https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game/blob/main/README.md#tic-tac-toe-game)
    

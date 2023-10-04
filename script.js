@@ -215,6 +215,8 @@ window.onload = function () {
 				document.getElementById(
 					"result",
 				).innerText = "You won! Click NEW GAME!";
+				humanWinCount++;
+				document.getElementById("humanWins").innerText = humanWinCount;
 				gameOver = true;
 			} else {
 				checkForDraw();

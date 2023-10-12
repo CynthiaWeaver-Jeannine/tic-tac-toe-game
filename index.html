@@ -17,6 +17,13 @@
         </header>
 
         <div class="gameModeContainer">
+        <span id="gameboardSizeInstruction">Choose your board size:</span>
+        <div class="radioContainer">
+            <input type="radio" id="size3" name="boardSize" value="3" checked>
+            <label for="size3">3x3</label>
+            <input type="radio" id="size4" name="boardSize" value="4">
+            <label for="size4">4x4</label>
+        </div>     
         <span id="gameModeInstruction">Choose your play style:</span>
         <select id="gameMode">
             <option value="easy" selected>Easy Mode </option>
@@ -39,17 +46,6 @@
             
             <div class="game-container">
                 <div id="board">
-                    <canvas aria-label="Board position 1" id="canvas1" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 2" id="canvas2" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 3" id="canvas3" width="100" height="100"></canvas>
-                    <br />
-                    <canvas aria-label="Board position 4" id="canvas4" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 5" id="canvas5" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 6" id="canvas6" width="100" height="100"></canvas>
-                    <br />
-                    <canvas aria-label="Board position 7" id="canvas7" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 8" id="canvas8" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 9" id="canvas9" width="100" height="100"></canvas>
                 </div>
                <button id="newGameButton">NEW GAME</button>
                     <div id="gameInfo">

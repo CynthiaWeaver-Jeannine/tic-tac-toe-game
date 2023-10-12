@@ -14,8 +14,8 @@ window.onload = function () {
 	const FIRST_PLAYER_CHANCE = 0.5;
 
 	// initial state
-	let filled = Array(BOARD_SIZE).fill(false);
-	let boardSymbols = Array(BOARD_SIZE).fill("");
+	let filled = Array(BOARD_SIZE * BOARD_SIZE).fill(false);
+	let boardSymbols = Array(BOARD_SIZE * BOARD_SIZE).fill("");
 	let turn = 1;
 	let gameOver = false;
 

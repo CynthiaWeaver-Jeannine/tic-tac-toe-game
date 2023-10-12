@@ -10,7 +10,7 @@ window.onload = function () {
 	let aiSymbol = "O";
 	let humanWinCount = 0;
 	let aiWinCount = 0;
-	const BOARD_SIZE = 9;
+	const BOARD_SIZE = 4;
 	const FIRST_PLAYER_CHANCE = 0.5;
 
 	// initial state
@@ -18,6 +18,17 @@ window.onload = function () {
 	let boardSymbols = Array(BOARD_SIZE * BOARD_SIZE).fill("");
 	let turn = 1;
 	let gameOver = false;
+
+	function generateBoard(size) {
+		const boardDiv = document.getElementById("board");
+		boardDiv.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+		boardDiv.innerHTML = ""; 
+		for (let i=1; i <= size * size; i++) {
+			const canvas = document.createElement("canvas");
+			canvas.id = "canvas" + i;
+			boardDiv.appendChild(canvas);
+		}
+	}
 
 	function drawSymbolOnBox(context, player, box) {
 		if (player === humanSymbol) {
@@ -51,6 +62,21 @@ window.onload = function () {
 	}
 
 	// event listeners
+	document
+		.getElementById("size3")
+		.addEventListener("change", handleBoardSizeChange);
+	document
+		.getElementById("size4")
+		.addEventListener("change", handleBoardSizeChange);
+
+	const radioButtons = document.querySelectorAll('input[name="boardSize"]');
+	radioButtons.forEach(button => {
+		button.addEventListener("change", function(event) {
+			const selectedSize = parseInt(event.target.value);
+			generateBoard(selectedSize);
+			newGame();
+		})
+	})
 	document.getElementById("gameMode").addEventListener("change", function (e) {
 		const validModes = ["classic", "easy", "random"];
 		if (!validModes.includes(e.target.value)) {
@@ -71,10 +97,47 @@ window.onload = function () {
 		document.getElementById("aiWins").innerText = aiWinCount;
 		document.getElementById("draws").innerText = "0";
 	});
+	function handleBoardSizeChange() {
+		// Clear the board
+		clearBoard();
+
+		// Reset the game state
+		resetGameState();
+
+		// Depending on the selected size, re-render the board
+		let boardSize = 3; // default to 3x3
+		if (document.getElementById("size4").checked) {
+			boardSize = 4;
+		}
+		renderBoard(boardSize);
+	}
+
+	function clearBoard() {
+		const boardElement = document.getElementById("board");
+		while (boardElement.firstChild) {
+			boardElement.removeChild(boardElement.lastChild);
+		}
+	}
+
+	function resetGameState() {
+		// Implement resetting your game's state here, like resetting turns, scores, etc.
+		// Depending on how you've implemented the game logic, this function will vary.
+	}
+
+	function renderBoard(size) {
+		const boardElement = document.getElementById("board");
+		for (let i = 0; i < size * size; i++) {
+			const canvas = document.createElement("canvas");
+			canvas.id = "canvas" + (i + 1);
+			boardElement.appendChild(canvas);
+		}
+		// Note: You might also want to attach event listeners to these new canvas elements or set up their initial styles.
+	}
+
 
 	// reset the game
 	function newGame() {
-		for (let i = 1; i <= BOARD_SIZE; i++) {
+		for (let i = 1; i <= BOARD_SIZE * BOARD_SIZE; i++) {
 			const canvas = document.getElementById("canvas" + i);
 			const context = canvas.getContext("2d");
 			context.clearRect(0, 0, canvas.width, canvas.height);
@@ -150,4 +213,7 @@ window.onload = function () {
 			checkForDraw();
 		}
 	}
+
+	generateBoard(BOARD_SIZE);
+	newGame();
 };

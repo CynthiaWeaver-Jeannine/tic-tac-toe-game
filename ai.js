@@ -44,12 +44,30 @@ function hasWon(board, player) {
 		);
 	}
 }
-//Minimax algorithm with alpha-beta pruning
+
+function heuristicScore(board) {
+	let score = 0;
+	const winningCombinations = generateWinningCombinations();
+	for(let combination of winningCombinations) {
+		const symbols = combination.map(index => board[index]);
+		if (symbols.every(symbol => symbol === aiSymbol)) {
+			score += symbols.length;
+		} else if (symbols.every(symbol => symbol === humanSymbol)) {
+			score -= symbols.length;
+		}
+	}
+	return score
+}
+
+// Minimax algorithm with alpha-beta pruning;
+// includes depth-limiting logic
 function evaluateBestMove(
 	currentBoardState,
 	player,
+	depth = 0,
 	alpha = -Infinity,
 	beta = Infinity,
+	maxDepth = 4
 ) {
 	const emptyPositions = getEmptyBoxPositions(currentBoardState);
 	if (hasWon(currentBoardState, humanSymbol)) {
@@ -61,6 +79,9 @@ function evaluateBestMove(
 	if (emptyPositions.length === 0) {
 		return { score: DRAW_SCORE };
 	}
+	if (depth >= maxDepth) {
+		return { score: heuristicScore(currentBoardState) };
+	}
 	if (player === aiSymbol) {
 		let bestScore = -Infinity;
 		let bestMove;
@@ -69,6 +90,7 @@ function evaluateBestMove(
 			let currentScore = evaluateBestMove(
 				currentBoardState,
 				humanSymbol,
+				depth+1,
 				alpha,
 				beta,
 			).score;
@@ -91,6 +113,7 @@ function evaluateBestMove(
 			let currentScore = evaluateBestMove(
 				currentBoardState,
 				aiSymbol,
+				depth+1,
 				alpha,
 				beta,
 			).score;

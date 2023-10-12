@@ -1,16 +1,21 @@
+/** @format */
 
-import { hasWon, evaluateBestMove, getEmptyBoxPositions, getAIMove, getEasyMove, getRandomMove} from "./ai.js"
-
+import {
+	hasWon,
+	getAIMove
+} from "./ai.js";
 
 window.onload = function () {
 	let humanSymbol = "X";
 	let aiSymbol = "O";
 	let humanWinCount = 0;
 	let aiWinCount = 0;
+	const BOARD_SIZE = 9;
+	const FIRST_PLAYER_CHANCE = 0.5;
 
 	// initial state
-	let filled = Array(9).fill(false);
-	let boardSymbols = Array(9).fill("");
+	let filled = Array(BOARD_SIZE).fill(false);
+	let boardSymbols = Array(BOARD_SIZE).fill("");
 	let turn = 1;
 	let gameOver = false;
 
@@ -69,7 +74,7 @@ window.onload = function () {
 
 	// reset the game
 	function newGame() {
-		for (let i = 1; i <= 9; i++) {
+		for (let i = 1; i <= BOARD_SIZE; i++) {
 			const canvas = document.getElementById("canvas" + i);
 			const context = canvas.getContext("2d");
 			context.clearRect(0, 0, canvas.width, canvas.height);
@@ -79,7 +84,7 @@ window.onload = function () {
 		filled.fill(false);
 		boardSymbols.fill("");
 		document.getElementById("result").innerText = "";
-		const randomPlayer = Math.random() < 0.5 ? "human" : "ai";
+		const randomPlayer = Math.random() < FIRST_PLAYER_CHANCE ? "human" : "ai";
 		if (randomPlayer === "human") {
 			turn = 1;
 		} else {
@@ -128,7 +133,7 @@ window.onload = function () {
 	}
 	// handle AI's move
 	function handleAIMove() {
-		const boxId = getAIMove(boardSymbols);			
+		const boxId = getAIMove(boardSymbols);
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
 		if (gameOver) {
@@ -145,10 +150,4 @@ window.onload = function () {
 			checkForDraw();
 		}
 	}
-}
-
-        
-
-
-
-	
+};

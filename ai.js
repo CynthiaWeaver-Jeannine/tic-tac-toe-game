@@ -1,27 +1,46 @@
 /** @format */
 const humanSymbol = "X";
 const aiSymbol = "O";
+const HUMAN_WIN_SCORE = -10;
+const AI_WIN_SCORE = 10;
+const DRAW_SCORE = 0;
+const BOARD_SIZE = 4;
+
+function generateWinningCombinations() {
+	let combinations = [];
+	// rows
+	for (let i = 0; i < BOARD_SIZE; i++) {
+		combinations.push(
+			[...Array(BOARD_SIZE).keys()].map((j) => i * BOARD_SIZE + j),
+		);
+	}
+	// columns
+	for (let j = 0; j < BOARD_SIZE; j++) {
+		combinations.push(
+			[...Array(BOARD_SIZE).keys()].map((i) => i * BOARD_SIZE + j),
+		);
+	}
+	//diagonals
+	combinations.push(
+		[...Array(BOARD_SIZE).keys()].map((i) => i * BOARD_SIZE + i),
+	);
+	combinations.push(
+		[...Array(BOARD_SIZE).keys()].map(
+			(i) => i * BOARD_SIZE + (BOARD_SIZE - 1 - i),
+		),
+	);
+
+	return combinations;
+}
 
 function hasWon(board, player) {
-	const winningCombinations = [
-		[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6],
-	];
+	const winningCombinations = generateWinningCombinations();
 
 	return checkForWinner(board, player);
 
 	function checkForWinner(board, player) {
-		return winningCombinations.some(
-			(combination) =>
-				board[combination[0]] === player &&
-				board[combination[1]] === player &&
-				board[combination[2]] === player,
+		return winningCombinations.some((combination) =>
+			combination.every((index) => board[index] === player),
 		);
 	}
 }
@@ -34,13 +53,13 @@ function evaluateBestMove(
 ) {
 	const emptyPositions = getEmptyBoxPositions(currentBoardState);
 	if (hasWon(currentBoardState, humanSymbol)) {
-		return { score: -10 };
+		return { score: HUMAN_WIN_SCORE };
 	}
 	if (hasWon(currentBoardState, aiSymbol)) {
-		return { score: 10 };
+		return { score: AI_WIN_SCORE };
 	}
 	if (emptyPositions.length === 0) {
-		return { score: 0 };
+		return { score: DRAW_SCORE };
 	}
 	if (player === aiSymbol) {
 		let bestScore = -Infinity;

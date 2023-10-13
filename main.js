@@ -8,8 +8,7 @@ window.addEventListener("DOMContentLoaded", function () {
 	const FIRST_PLAYER_CHANCE = 0.5;
 
 	// initial state
-	let filled = Array(boardConfig.size * boardConfig.size).fill(false);
-	let boardSymbols = Array(boardConfig.size * boardConfig.size).fill("");
+	const { filled, boardSymbols } = initializeArrays();
 	let turn = 1;
 	let gameOver = false;
 

@@ -175,10 +175,7 @@ function drawSymbolOnBox(context, player, box) {
 		}
 	}
 
-	function resetGameState() {
-		// Implement resetting your game's state here, like resetting turns, scores, etc.
-		// Depending on how you've implemented the game logic, this function will vary.
-	}
+	
 
 	function renderBoard(size) {
 		const boardElement = document.getElementById("board");
@@ -187,7 +184,7 @@ function drawSymbolOnBox(context, player, box) {
 			canvas.id = "canvas" + (i + 1);
 			boardElement.appendChild(canvas);
 		}
-		// Note: You might also want to attach event listeners to these new canvas elements or set up their initial styles.
+		
 	}
 
 	// reset the game

@@ -4,29 +4,31 @@ const aiSymbol = "O";
 const HUMAN_WIN_SCORE = -10;
 const AI_WIN_SCORE = 10;
 const DRAW_SCORE = 0;
-const BOARD_SIZE = 4;
+export let boardConfig = {
+	size: 4
+}
 
 function generateWinningCombinations() {
 	let combinations = [];
 	// rows
-	for (let i = 0; i < BOARD_SIZE; i++) {
+	for (let i = 0; i < boardConfig.size; i++) {
 		combinations.push(
-			[...Array(BOARD_SIZE).keys()].map((j) => i * BOARD_SIZE + j),
+			[...Array(boardConfig.size).keys()].map((j) => i * boardConfig.size + j),
 		);
 	}
 	// columns
-	for (let j = 0; j < BOARD_SIZE; j++) {
+	for (let j = 0; j < boardConfig.size; j++) {
 		combinations.push(
-			[...Array(BOARD_SIZE).keys()].map((i) => i * BOARD_SIZE + j),
+			[...Array(boardConfig.size).keys()].map((i) => i * boardConfig.size + j),
 		);
 	}
 	//diagonals
 	combinations.push(
-		[...Array(BOARD_SIZE).keys()].map((i) => i * BOARD_SIZE + i),
+		[...Array(boardConfig.size).keys()].map((i) => i * boardConfig.size + i),
 	);
 	combinations.push(
-		[...Array(BOARD_SIZE).keys()].map(
-			(i) => i * BOARD_SIZE + (BOARD_SIZE - 1 - i),
+		[...Array(boardConfig.size).keys()].map(
+			(i) => i * boardConfig.size + (boardConfig.size - 1 - i),
 		),
 	);
 
@@ -48,16 +50,50 @@ function hasWon(board, player) {
 function heuristicScore(board) {
 	let score = 0;
 	const winningCombinations = generateWinningCombinations();
-	for(let combination of winningCombinations) {
-		const symbols = combination.map(index => board[index]);
-		if (symbols.every(symbol => symbol === aiSymbol)) {
-			score += symbols.length;
-		} else if (symbols.every(symbol => symbol === humanSymbol)) {
-			score -= symbols.length;
+	for (let combination of winningCombinations) {
+		const symbols = combination.map((index) => board[index]);
+		// Calculate AI's potential wins
+		if (
+			symbols.filter((symbol) => symbol === aiSymbol).length ===
+				boardConfig.size - 1 &&
+			symbols.filter((symbol) => symbol === "").length === 1
+		) {
+			score += 3;
+		}
+
+		// Calculate Human's potential wins
+		if (
+			symbols.filter((symbol) => symbol === humanSymbol).length ===
+				boardConfig.size - 1 &&
+			symbols.filter((symbol) => symbol === "").length === 1
+		) {
+			score -= 4; // Note: Higher penalty for human potential wins to prioritize blocking
+		}
+
+		// Prioritize center for larger boards
+		if (boardConfig.size > 3) {
+			const centerIndexes = [
+				Math.floor(boardConfig.size / 2) * boardConfig.size +
+					Math.floor(boardConfig.size / 2),
+				Math.floor(boardConfig.size / 2) * boardConfig.size +
+					Math.floor(boardConfig.size / 2) -
+					1,
+				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
+					Math.floor(boardConfig.size / 2),
+				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
+					Math.floor(boardConfig.size / 2) -
+					1,
+			];
+			for (const centerIndex of centerIndexes) {
+				if (board[centerIndex] === aiSymbol) {
+					score += 1;
+				} else if (board[centerIndex] === humanSymbol) {
+					score -= 1;
+				}
+			}
 		}
 	}
-	return score
-}
+	return score;}
 
 // Minimax algorithm with alpha-beta pruning;
 // includes depth-limiting logic
@@ -67,7 +103,7 @@ function evaluateBestMove(
 	depth = 0,
 	alpha = -Infinity,
 	beta = Infinity,
-	maxDepth = 4
+	maxDepth = 6,
 ) {
 	const emptyPositions = getEmptyBoxPositions(currentBoardState);
 	if (hasWon(currentBoardState, humanSymbol)) {
@@ -87,6 +123,12 @@ function evaluateBestMove(
 		let bestMove;
 		for (let emptyIndex of emptyPositions) {
 			currentBoardState[emptyIndex] = player;
+			const expectedLength = boardConfig.size * boardConfig.size;
+			if (currentBoardState.length !== expectedLength) {
+				console.error(
+					"Inconsistency detected in currentBoardState length during evaluation!",
+				);
+			}
 			let currentScore = evaluateBestMove(
 				currentBoardState,
 				humanSymbol,
@@ -180,6 +222,8 @@ function getRandomMove(boardSymbols) {
 }
 
 export {
+	humanSymbol,
+	aiSymbol,
 	hasWon,
 	evaluateBestMove,
 	getEmptyBoxPositions,

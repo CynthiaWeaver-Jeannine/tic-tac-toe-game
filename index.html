@@ -62,20 +62,11 @@
 					<span class="score-item">Max's Wins: <span id="aiWins">0</span></span>
 					<span class="score-item">Draws: <span id="draws">0</span></span>
 				</div>
-				<div
-					id="gameOverModal"
-					class="modal">
-					<div class="modal-content">
-						<span class="close">&times;</span>
-						<p id="gameOverMessage">Game Over!</p>
-					</div>
-				</div>
+				
 			</div>
-
-			<h4 id="result"></h4>
-
 			<section id="game">
 				<div class="game-container">
+					<h4 id="result"></h4>
 					<div id="board"></div>
 					<button id="newGameButton">NEW GAME</button>
 					<div id="gameInfo">
@@ -93,7 +84,7 @@
 							wins, Max's wins, and draws. Reset at any time.
 						</p>
 						<p>
-							<strong>To Win:</strong> Fill a row, a column, or a diagnol with
+							<strong>To Win:</strong> Fill a row, a column, or a diagnal with
 							your symbol.
 						</p>
 						<p>
@@ -103,6 +94,14 @@
 					</div>
 				</div>
 			</section>
+			<div id="gameOverModal" class="modal">
+				<div id="modalOverlay">
+					<div class="modal-content">
+						<span class="close">&times;</span>
+						<p id="gameOverMessage"></p>
+					</div>
+				</div>
+			</div>
 		</div>
 		<footer class="site-footer">
 			<p>

@@ -1,12 +1,6 @@
 /** @format */
 
-import {
-	humanSymbol,
-	aiSymbol,
-	boardConfig,
-	hasWon,
-	getAIMove
-} from "./ai.js";
+import { humanSymbol, aiSymbol, boardConfig, hasWon, getAIMove } from "./ai.js";
 
 window.addEventListener("DOMContentLoaded", function () {
 	let humanWinCount = 0;
@@ -64,62 +58,57 @@ window.addEventListener("DOMContentLoaded", function () {
 		consistencyCheck();
 	}
 
-function drawSymbolOnBox(context, player, box) {
-	const canvasWidth = context.canvas.width;
-	const canvasHeight = context.canvas.height;
+	function drawSymbolOnBox(context, player, box) {
+		const canvasWidth = context.canvas.width;
+		const canvasHeight = context.canvas.height;
 
-	const lineWidth = canvasWidth * 0.1;
-	const margin = canvasWidth * 0.15;
-	const endPositionWidth = canvasWidth - margin;
-	const endPositionHeight = canvasHeight - margin;
+		const lineWidth = canvasWidth * 0.1;
+		const margin = canvasWidth * 0.15;
+		const endPositionWidth = canvasWidth - margin;
+		const endPositionHeight = canvasHeight - margin;
 
-	if (player === humanSymbol) {
-		box.style.backgroundColor = "#fb5181";
-		context.beginPath();
-		context.moveTo(margin, margin);
-		context.lineTo(endPositionWidth, endPositionHeight);
-		context.moveTo(endPositionWidth, margin);
-		context.lineTo(margin, endPositionHeight);
-		context.lineWidth = lineWidth;
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.stroke();
-	} else {
-		box.style.backgroundColor = "#71e29c";
-		const circleCenterWidth = canvasWidth / 2;
-		const circleCenterHeight = canvasHeight / 2;
-		const circleRadius = Math.min(canvasWidth, canvasHeight) / 2 - lineWidth;
+		if (player === humanSymbol) {
+			box.style.backgroundColor = "#fb5181";
+			context.beginPath();
+			context.moveTo(margin, margin);
+			context.lineTo(endPositionWidth, endPositionHeight);
+			context.moveTo(endPositionWidth, margin);
+			context.lineTo(margin, endPositionHeight);
+			context.lineWidth = lineWidth;
+			context.lineCap = "round";
+			context.strokeStyle = "white";
+			context.stroke();
+		} else {
+			box.style.backgroundColor = "#71e29c";
+			const circleCenterWidth = canvasWidth / 2;
+			const circleCenterHeight = canvasHeight / 2;
+			const circleRadius = Math.min(canvasWidth, canvasHeight) / 2 - lineWidth;
 
-		context.beginPath();
-		context.arc(
-			circleCenterWidth,
-			circleCenterHeight,
-			circleRadius,
-			0,
-			2 * Math.PI,
-		);
-		context.lineWidth = lineWidth;
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.stroke();
+			context.beginPath();
+			context.arc(
+				circleCenterWidth,
+				circleCenterHeight,
+				circleRadius,
+				0,
+				2 * Math.PI,
+			);
+			context.lineWidth = lineWidth;
+			context.lineCap = "round";
+			context.strokeStyle = "white";
+			context.stroke();
+		}
+
+		boardSymbols[parseInt(box.id.replace("canvas", "")) - 1] = player;
+		filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
+		turn++;
 	}
 
-	boardSymbols[parseInt(box.id.replace("canvas", "")) - 1] = player;
-	filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
-	turn++;
-}
-
-
-
-		
 	function isBoardFull(board) {
 		return board.every((cell) => cell === "X" || cell === "O");
 	}
 
 	// event listeners
-	document.addEventListener("DOMContentLoaded", function () {
-	
-	});
+	document.addEventListener("DOMContentLoaded", function () {});
 
 	const radioButtons = document.querySelectorAll('input[name="boardSize"]');
 	radioButtons.forEach((button) => {
@@ -136,7 +125,9 @@ function drawSymbolOnBox(context, player, box) {
 	document.getElementById("gameMode").addEventListener("change", function (e) {
 		const validModes = ["classic", "easy", "random"];
 		if (!validModes.includes(e.target.value)) {
-			alert("Invalid game mode selected. Please choose a valid game mode.");
+			showGameOverModal(
+				"Invalid game mode selected. Please choose a valid game mode.",
+			);
 			e.target.value = "classic";
 		}
 	});
@@ -175,8 +166,6 @@ function drawSymbolOnBox(context, player, box) {
 		}
 	}
 
-	
-
 	function renderBoard(size) {
 		const boardElement = document.getElementById("board");
 		for (let i = 0; i < size * size; i++) {
@@ -184,11 +173,43 @@ function drawSymbolOnBox(context, player, box) {
 			canvas.id = "canvas" + (i + 1);
 			boardElement.appendChild(canvas);
 		}
-		
 	}
+
+	function showGameOverModal(message) {
+		document.getElementById("gameOverMessage").textContent = message;
+		document.getElementById("gameOverModal").style.display = "block";
+	}
+
+	document
+		.querySelector(".close")
+		.addEventListener("click", closeGameOverModal);
+
+	function closeGameOverModal() {
+		document.getElementById("gameOverModal").style.display = "none";
+	}
+
+	document.addEventListener("DOMContentLoaded", function () {
+		document
+			.querySelector(".close")
+			.addEventListener("click", closeGameOverModal);
+	});
+
+	window.onclick = function (event) {
+		if (event.target == document.getElementById("gameOverModal")) {
+			closeGameOverModal();
+		}
+	};
+	document
+		.getElementById("modalOverlay")
+		.addEventListener("click", function (e) {
+			if (e.target === e.currentTarget) {
+				closeGameOverModal();
+			}
+		});
 
 	// reset the game
 	function newGame() {
+		closeGameOverModal();
 		resetBoardAndGameState();
 		consistencyCheck();
 
@@ -220,11 +241,11 @@ function drawSymbolOnBox(context, player, box) {
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
 		if (filled[num]) {
-			alert("This box is filled, please choose a differnt one.");
+			showGameOverModal("This box is filled, please choose a different one.");
 			return;
 		}
 		if (gameOver) {
-			alert("The game is over. Click NEW GAME to play again!");
+			showGameOverModal("The game is over. Click NEW GAME to play again!");
 			return;
 		}
 		if (turn % 2 !== 0) {
@@ -252,7 +273,8 @@ function drawSymbolOnBox(context, player, box) {
 		const box = document.getElementById(boxId);
 		const context = box.getContext("2d");
 		if (gameOver) {
-			alert("The game is over. Click NEW GAME to play again!");
+			showGameOverModal("The game is over. Click NEW GAME to play again!");
+
 			return;
 		}
 		drawSymbolOnBox(context, aiSymbol, box);
@@ -271,6 +293,4 @@ function drawSymbolOnBox(context, player, box) {
 
 	newGame();
 	document.getElementById("size" + boardConfig.size).checked = true;
-
-
 });

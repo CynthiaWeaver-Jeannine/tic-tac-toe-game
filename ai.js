@@ -4,11 +4,12 @@ const aiSymbol = "O";
 const HUMAN_WIN_SCORE = -10;
 const AI_WIN_SCORE = 10;
 const DRAW_SCORE = 0;
-export let boardConfig = {
-	size: 4
-}
 
-function generateWinningCombinations() {
+function generateWinningCombinations(boardConfig = {size:3}) {
+	if (!boardConfig || !boardConfig.size) {
+        console.error("boardConfig or boardConfig.size is not defined!");
+        return [];
+	}
 	let combinations = [];
 	// rows
 	for (let i = 0; i < boardConfig.size; i++) {
@@ -35,82 +36,32 @@ function generateWinningCombinations() {
 	return combinations;
 }
 
-function hasWon(board, player) {
-	const winningCombinations = generateWinningCombinations();
-
+function hasWon(board, player, boardConfig) {
+	const winningCombinations = generateWinningCombinations(boardConfig);
 	return checkForWinner(board, player);
-
 	function checkForWinner(board, player) {
-		return winningCombinations.some((combination) =>
-			combination.every((index) => board[index] === player),
+		return winningCombinations.some(
+			(combination) =>
+				board[combination[0]] === player &&
+				board[combination[1]] === player &&
+				board[combination[2]] === player,
 		);
 	}
 }
-
-function heuristicScore(board) {
-	let score = 0;
-	const winningCombinations = generateWinningCombinations();
-	for (let combination of winningCombinations) {
-		const symbols = combination.map((index) => board[index]);
-		// Calculate AI's potential wins
-		if (
-			symbols.filter((symbol) => symbol === aiSymbol).length ===
-				boardConfig.size - 1 &&
-			symbols.filter((symbol) => symbol === "").length === 1
-		) {
-			score += 3;
-		}
-
-		// Calculate Human's potential wins
-		if (
-			symbols.filter((symbol) => symbol === humanSymbol).length ===
-				boardConfig.size - 1 &&
-			symbols.filter((symbol) => symbol === "").length === 1
-		) {
-			score -= 4; // Note: Higher penalty for human potential wins to prioritize blocking
-		}
-
-		// Prioritize center for larger boards
-		if (boardConfig.size > 3) {
-			const centerIndexes = [
-				Math.floor(boardConfig.size / 2) * boardConfig.size +
-					Math.floor(boardConfig.size / 2),
-				Math.floor(boardConfig.size / 2) * boardConfig.size +
-					Math.floor(boardConfig.size / 2) -
-					1,
-				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
-					Math.floor(boardConfig.size / 2),
-				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
-					Math.floor(boardConfig.size / 2) -
-					1,
-			];
-			for (const centerIndex of centerIndexes) {
-				if (board[centerIndex] === aiSymbol) {
-					score += 1;
-				} else if (board[centerIndex] === humanSymbol) {
-					score -= 1;
-				}
-			}
-		}
-	}
-	return score;}
-
-// Minimax algorithm with alpha-beta pruning;
-// includes depth-limiting logic
+//Minimax algorithm with alpha-beta pruning
 function evaluateBestMove(
 	currentBoardState,
 	player,
 	depth = 0,
 	alpha = -Infinity,
 	beta = Infinity,
-	maxDepth = 6,
 ) {
 	const emptyPositions = getEmptyBoxPositions(currentBoardState);
 	if (hasWon(currentBoardState, humanSymbol)) {
 		return { score: HUMAN_WIN_SCORE };
 	}
 	if (hasWon(currentBoardState, aiSymbol)) {
-		return { score: AI_WIN_SCORE };
+		return { score: 10 };
 	}
 	if (emptyPositions.length === 0) {
 		return { score: DRAW_SCORE };
@@ -135,6 +86,7 @@ function evaluateBestMove(
 				depth+1,
 				alpha,
 				beta,
+				boardConfig,
 			).score;
 			currentBoardState[emptyIndex] = "";
 			if (currentScore > bestScore) {
@@ -158,6 +110,7 @@ function evaluateBestMove(
 				depth+1,
 				alpha,
 				beta,
+				boardConfig,
 			).score;
 			currentBoardState[emptyIndex] = "";
 			if (currentScore < bestScore) {
@@ -186,12 +139,23 @@ function getEmptyBoxPositions(currentBoardState) {
 	return emptyPositions;
 }
 
-function getAIMove(boardSymbols) {
+function getAIMove(boardSymbols, boardConfig) {
 	switch (document.getElementById("gameMode").value) {
 		case "classic":
-			return "canvas" + (evaluateBestMove(boardSymbols, aiSymbol).id + 1);
+			return (
+				"canvas" +
+				(evaluateBestMove(
+					boardSymbols,
+					aiSymbol,
+					-Infinity,
+					Infinity,
+					6,
+					boardConfig,
+				).id +
+					1)
+			);
 		case "easy":
-			return getEasyMove(boardSymbols);
+			return getEasyMove(boardSymbols, boardConfig);
 		case "random":
 			return getRandomMove(boardSymbols);
 		default:
@@ -201,22 +165,22 @@ function getAIMove(boardSymbols) {
 	}
 }
 
-function getEasyMove(boardSymbols) {
+function getEasyMove(boardSymbols, boardConfig) {
 	// Check if there's a winning move for AI
 	for (let i = 0; i < boardSymbols.length; i++) {
 		if (!boardSymbols[i]) {
 			boardSymbols[i] = aiSymbol;
-			if (hasWon(boardSymbols, aiSymbol)) {
+			if (hasWon(boardSymbols, aiSymbol, boardConfig)) {
 				return "canvas" + (i + 1);
 			}
 			boardSymbols[i] = "";
 		}
 	}
-	return getRandomMove(boardSymbols);
+	return getRandomMove(boardSymbols, boardConfig);
 }
 
-function getRandomMove(boardSymbols) {
-	const emptyPositions = getEmptyBoxPositions(boardSymbols);
+function getRandomMove(boardSymbols, boardConfig) {
+	const emptyPositions = getEmptyBoxPositions(boardSymbols, boardConfig);
 	const randomIndex = Math.floor(Math.random() * emptyPositions.length);
 	return "canvas" + (emptyPositions[randomIndex] + 1);
 }

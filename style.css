@@ -61,6 +61,8 @@ h5#gameInfoTitle {
 	margin: 0 auto;
 }
 
+
+#gameModeInstruction, #gameboardSizeInstruction {
 #gameModeInstruction,
 #gameboardSizeInstruction {
 	font-size: 25px;
@@ -148,11 +150,11 @@ canvas {
 	border: 3px solid #0f7d62;
 	background-color: rgb(252, 244, 233);
 	text-align: center;
-
 	display: block;
 	float: left;
 	cursor: pointer;
 }
+
 
 canvas:hover {
 	background-color: #def0eb;

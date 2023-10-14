@@ -40,77 +40,28 @@ function hasWon(board, player, boardConfig) {
 	const winningCombinations = generateWinningCombinations(boardConfig);
 	return checkForWinner(board, player);
 	function checkForWinner(board, player) {
-		return winningCombinations.some((combination) =>
-			combination.every((index) => board[index] === player),
+		return winningCombinations.some(
+			(combination) =>
+				board[combination[0]] === player &&
+				board[combination[1]] === player &&
+				board[combination[2]] === player,
 		);
 	}
 }
-
-function heuristicScore(board, boardConfig) {
-	let score = 0;
-	const winningCombinations = generateWinningCombinations(boardConfig);
-	for (let combination of winningCombinations) {
-		const symbols = combination.map((index) => board[index]);
-		// Calculate AI's potential wins
-		if (
-			symbols.filter((symbol) => symbol === aiSymbol).length ===
-				boardConfig.size - 1 &&
-			symbols.filter((symbol) => symbol === "").length === 1
-		) {
-			score += 3;
-		}
-
-		// Calculate Human's potential wins
-		if (
-			symbols.filter((symbol) => symbol === humanSymbol).length ===
-				boardConfig.size - 1 &&
-			symbols.filter((symbol) => symbol === "").length === 1
-		) {
-			score -= 4; // Note: Higher penalty for human potential wins to prioritize blocking
-		}
-
-		// Prioritize center for larger boards
-		if (boardConfig.size > 3) {
-			const centerIndexes = [
-				Math.floor(boardConfig.size / 2) * boardConfig.size +
-					Math.floor(boardConfig.size / 2),
-				Math.floor(boardConfig.size / 2) * boardConfig.size +
-					Math.floor(boardConfig.size / 2) -
-					1,
-				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
-					Math.floor(boardConfig.size / 2),
-				(Math.floor(boardConfig.size / 2) - 1) * boardConfig.size +
-					Math.floor(boardConfig.size / 2) -
-					1,
-			];
-			for (const centerIndex of centerIndexes) {
-				if (board[centerIndex] === aiSymbol) {
-					score += 1;
-				} else if (board[centerIndex] === humanSymbol) {
-					score -= 1;
-				}
-			}
-		}
-	}
-	return score;}
-
-// Minimax algorithm with alpha-beta pruning;
-// includes depth-limiting logic
+//Minimax algorithm with alpha-beta pruning
 function evaluateBestMove(
 	currentBoardState,
 	player,
 	depth = 0,
 	alpha = -Infinity,
 	beta = Infinity,
-	maxDepth = 6,
-	boardConfig,
 ) {
 	const emptyPositions = getEmptyBoxPositions(currentBoardState);
 	if (hasWon(currentBoardState, humanSymbol)) {
 		return { score: HUMAN_WIN_SCORE };
 	}
-	if (hasWon(currentBoardState, aiSymbol, boardConfig)) {
-		return { score: AI_WIN_SCORE };
+	if (hasWon(currentBoardState, aiSymbol)) {
+		return { score: 10 };
 	}
 	if (emptyPositions.length === 0) {
 		return { score: DRAW_SCORE };

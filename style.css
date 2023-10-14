@@ -58,13 +58,38 @@ h5#gameInfoTitle {
 	margin: 0 auto;
 }
 
-#gameModeInstruction {
+
+#gameModeInstruction, #gameboardSizeInstruction {
 	font-size: 25px;
 	font-weight: bold;
 	margin-bottom: 10px;
 	color: #270e28;
 }
 
+.radioContainer {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.radioContainer label {
+	font-size: 20px;
+	margin-right: 30px;
+}
+
+.radioContainer input[type="radio"] {
+	margin-right: 10px;
+}
+
+.board-size-3x3 canvas {
+	width: calc(100% / 3);
+	height: calc(100% / 3);
+}
+
+.board-size-4x4 canvas {
+	width: calc(100% / 4);
+	height: calc(100% / 4);
+}
 #gameMode {
 	width: 100%;
 	background-color: #def0eb;
@@ -114,12 +139,17 @@ h5#gameInfoTitle {
 	flex-direction: column;
 }
 canvas {
+	width: 100px;
+	height: 100px;
 	border: 3px solid #0f7d62;
 	background-color: rgb(252, 244, 233);
 	text-align: center;
+	
 	display: block;
 	float: left;
+	cursor: pointer;
 }
+
 
 canvas:hover {
 	background-color: #def0eb;
@@ -128,17 +158,19 @@ canvas:hover {
 #game {
 	flex-grow: 1;
 	position: relative;
-	width: 670px;
-	height: 322px;
+	max-width: 776px;
+	max-height: 424px;
 	margin: 0 auto;
 	padding-bottom: 60px;
 }
 
 #board {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	position: relative;
 	margin: 0 auto;
-	max-width: 318px;
-	max-height: 314px;
+	max-width: 424px;
+	max-height: 424px;
 	float: left;
 	border: 3px solid #0f7d62;
 	border-bottom: 5px solid #0f7d62;

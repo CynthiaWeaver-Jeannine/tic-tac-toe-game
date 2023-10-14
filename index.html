@@ -17,6 +17,13 @@
         </header>
 
         <div class="gameModeContainer">
+        <span id="gameboardSizeInstruction">Choose your board size:</span>
+        <div class="radioContainer">
+            <input type="radio" id="size3" name="boardSize" value="3" >
+            <label for="size3">3x3</label>
+            <input type="radio" id="size4" name="boardSize" value="4" checked>
+            <label for="size4">4x4</label>
+        </div>     
         <span id="gameModeInstruction">Choose your play style:</span>
         <select id="gameMode">
             <option value="easy" selected>Easy Mode </option>
@@ -39,17 +46,6 @@
             
             <div class="game-container">
                 <div id="board">
-                    <canvas aria-label="Board position 1" id="canvas1" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 2" id="canvas2" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 3" id="canvas3" width="100" height="100"></canvas>
-                    <br />
-                    <canvas aria-label="Board position 4" id="canvas4" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 5" id="canvas5" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 6" id="canvas6" width="100" height="100"></canvas>
-                    <br />
-                    <canvas aria-label="Board position 7" id="canvas7" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 8" id="canvas8" width="100" height="100"></canvas>
-                    <canvas aria-label="Board position 9" id="canvas9" width="100" height="100"></canvas>
                 </div>
                <button id="newGameButton">NEW GAME</button>
                     <div id="gameInfo">
@@ -57,7 +53,7 @@
                     <p><strong>Starting:</strong> The starting player is chosen at random in each new game.</p>
                     <p><strong>Moves:</strong> You play as <strong>X</strong> against Max as <strong>O</strong>.</p>
                     <p><strong>Scoreboard:</strong> The scoreboard keeps track of your wins, Max's wins, and draws. Reset at any time.</p>
-                    <p><strong>To Win:</strong> Connect 3 of your symbols in a row, a column, or a diagonal.</p>
+                    <p><strong>To Win:</strong> Fill a row, a column, or a diagnol with your symbol.</p>
                     <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>
 
 
@@ -74,7 +70,6 @@
             LinkedIn Profile</a></p>
         <p><a href="https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game" target="_blank">GitHub Repo for this game.</a></p>
     </footer>
-    <script type="module" src="ai.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 

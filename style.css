@@ -62,7 +62,7 @@ h5#gameInfoTitle {
 }
 
 
-#gameModeInstruction, #gameboardSizeInstruction {
+
 #gameModeInstruction,
 #gameboardSizeInstruction {
 	font-size: 25px;
@@ -327,4 +327,5 @@ button:hover {
 		position: relative;
 		margin-top: 0;
 	}
+
 }

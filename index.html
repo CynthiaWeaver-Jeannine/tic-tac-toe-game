@@ -1,81 +1,78 @@
-<!-- @format -->
+//html
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="description"
-			content="Tic Tac Toe game with easy, hard and random modes." />
-		<title>Tic Tac Toe</title>
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="style.css" />
-	</head>
 
-	<body>
-		<div class="wrapper">
-			<header>
-				<h1 id="gameTitle">Tic Tac Toe</h1>
-				<h2 id="gameSubtitle">Test your skills against Max</h2>
-			</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Tic Tac Toe game with easy, hard and random modes.">
+    <title>Tic Tac Toe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 id="gameTitle">Tic Tac Toe </h1>
+            <h2 id="gameSubtitle">Test your skills against Max</h2>
+        </header>
 
         <div class="gameModeContainer">
-        <span id="gameboardSizeInstruction">Choose your board size:</span>
-        <div class="radioContainer">
-            <input type="radio" id="size3" name="boardSize" value="3" >
-            <label for="size3">3x3</label>
-            <input type="radio" id="size4" name="boardSize" value="4" checked>
-            <label for="size4">4x4</label>
-        </div>     
-        <span id="gameModeInstruction">Choose your play style:</span>
-        <select id="gameMode">
-            <option value="easy" selected>Easy Mode </option>
-            <option value="classic">Hard Mode</option>
-            <option value="random">Random Mode</option>
-        </select>
-        <div id="scoreboard">
-            <span class="score-reset-button"><button id="resetButton">Reset Scores</button></span>
-            <span class="scoreboardTitle">scoreboard:</span>
-            <span class="score-item">Your Wins: <span id="humanWins">0</span></span> 
-            <span class="score-item">Max's Wins: <span id="aiWins">0</span></span> 
-            <span class="score-item">Draws: <span id="draws">0</span></span>            
+            <span id="gameboardSizeInstruction">Choose your board size:</span>
+            <div class="radioContainer">
+                <input type="radio" id="size3" name="boardSize" value="3">
+                <label for="size3">3x3</label>
+                <input type="radio" id="size4" name="boardSize" value="4" checked>
+                <label for="size4">4x4</label>
+            </div>
+            <span id="gameModeInstruction">Choose your play style:</span>
+            <select id="gameMode">
+                <option value="easy" selected>Easy Mode </option>
+                <option value="classic">Hard Mode</option>
+                <option value="random">Random Mode</option>
+            </select>
+            <div id="scoreboard">
+                <span class="score-reset-button"><button id="resetButton">Reset Scores</button></span>
+                <span class="scoreboardTitle">scoreboard:</span>
+                <span class="score-item">Your Wins: <span id="humanWins">0</span></span>
+                <span class="score-item">Max's Wins: <span id="aiWins">0</span></span>
+                <span class="score-item">Draws: <span id="draws">0</span></span>
+            </div>
+
         </div>
 
-        </div> 
-        
         <h4 id="result"></h4>
 
         <section id="game">
-            
+
             <div class="game-container">
                 <div class="board-container">
-                <div id="board">
+                    <div id="board">
+                    </div>
+                    <button id="newGameButton">NEW GAME</button>
+                    <aside class="gameInfo">
+                        <h5 id="gameInfoTitle">Game Info</h5>
+                        <p><strong>Starting:</strong> The starting player is chosen at random in each new game.</p>
+                        <p><strong>Moves:</strong> You play as <strong>X</strong> against Max as <strong>O</strong>.</p>
+                        <p><strong>Scoreboard:</strong> The scoreboard keeps track of your wins, Max's wins, and draws.
+                            Reset at any time.</p>
+                        <p><strong>To Win:</strong> Fill a row, a column, or a diagnol with your symbol.</p>
+                        <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>
+                    </aside>
                 </div>
-               <button id="newGameButton">NEW GAME</button>
-                <aside class="gameInfo">
-                    <h5 id="gameInfoTitle">Game Info</h5>
-                    <p><strong>Starting:</strong> The starting player is chosen at random in each new game.</p>
-                    <p><strong>Moves:</strong> You play as <strong>X</strong> against Max as <strong>O</strong>.</p>
-                    <p><strong>Scoreboard:</strong> The scoreboard keeps track of your wins, Max's wins, and draws. Reset at any time.</p>
-                    <p><strong>To Win:</strong> Fill a row, a column, or a diagnol with your symbol.</p>
-                    <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>                        
-                </aside>
-            </div>
-            
-                    
+
+
         </section>
-                    
+
     </div>
     <footer class="site-footer">
         <p><a href="mailto:cynthiajweaver@live.com">cynthiajweaver@live.com</a></p>
-        <p><a href="https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BHLm428wBS%2FmMA%2BLUHIvNNg%3D%3D" target="_blank">
-            LinkedIn Profile</a></p>
-        <p><a href="https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game" target="_blank">GitHub Repo for this game.</a></p>
+        <p><a href="https://www.linkedin.com/in/cynthiajweaver-dev?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BHLm428wBS%2FmMA%2BLUHIvNNg%3D%3D"
+                target="_blank">
+                LinkedIn Profile</a></p>
+        <p><a href="https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game" target="_blank">GitHub Repo for this
+                game.</a></p>
     </footer>
     <div id="modalOverlay" class="modal">
         <div class="modal-content" id="gameOverModal">

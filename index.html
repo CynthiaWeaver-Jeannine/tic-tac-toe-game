@@ -45,21 +45,20 @@
         <section id="game">
             
             <div class="game-container">
+                <div class="board-container">
                 <div id="board">
                 </div>
                <button id="newGameButton">NEW GAME</button>
-                    <div id="gameInfo">
+                <aside class="gameInfo">
                     <h5 id="gameInfoTitle">Game Info</h5>
                     <p><strong>Starting:</strong> The starting player is chosen at random in each new game.</p>
                     <p><strong>Moves:</strong> You play as <strong>X</strong> against Max as <strong>O</strong>.</p>
                     <p><strong>Scoreboard:</strong> The scoreboard keeps track of your wins, Max's wins, and draws. Reset at any time.</p>
                     <p><strong>To Win:</strong> Fill a row, a column, or a diagnol with your symbol.</p>
-                    <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>
-
-
-                        
-                    </div>
+                    <p><strong>Pro Tip:</strong> Be strategic! Max can be quite the opponent. Have fun!</p>                        
+                </aside>
             </div>
+            
                     
         </section>
                     
@@ -70,6 +69,13 @@
             LinkedIn Profile</a></p>
         <p><a href="https://github.com/CynthiaWeaver-Jeannine/tic-tac-toe-game" target="_blank">GitHub Repo for this game.</a></p>
     </footer>
+    <div id="modalOverlay" class="modal">
+        <div class="modal-content" id="gameOverModal">
+            <span class="close">&times;</span>
+            <p id="gameOverMessage">Some text in the Modal..</p>
+        </div>
+    </div>
+
     <script type="module" src="main.js"></script>
 </body>
 

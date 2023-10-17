@@ -1,3 +1,5 @@
+
+
 /** @format */
 
 * {
@@ -15,8 +17,7 @@ header {
 	text-align: center;
 	margin: 50px;
 	padding: 0;
-	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-		"Lucida Sans", Arial, sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 h1#gameTitle {
@@ -36,15 +37,13 @@ h2#gameSubtitle {
 }
 
 h4#result {
-	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-		"Lucida Sans", Arial, sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	font-size: 30px;
 	color: #349e83;
 	text-align: center;
 	margin-bottom: 25px;
 	min-height: 25px;
-	line-height: 25px;
-	
+	line-height: 25px
 }
 
 h5#gameInfoTitle {
@@ -62,7 +61,6 @@ h5#gameInfoTitle {
 }
 
 
-
 #gameModeInstruction,
 #gameboardSizeInstruction {
 	font-size: 25px;
@@ -71,18 +69,18 @@ h5#gameInfoTitle {
 	color: #270e28;
 }
 
-#radioContainer {
+.radioContainer {
 	display: flex;
 	align-items: center;
 	margin-bottom: 5px;
 }
 
-#radioContainer label {
+.radioContainer label {
 	font-size: 20px;
 	margin-right: 30px;
 }
 
-#radioContainer input[type="radio"] {
+.radioContainer input[type="radio"] {
 	margin-right: 10px;
 }
 
@@ -95,6 +93,7 @@ h5#gameInfoTitle {
 	width: calc(100% / 4);
 	height: calc(100% / 4);
 }
+
 #gameMode {
 	width: 100%;
 	background-color: #def0eb;
@@ -106,10 +105,10 @@ h5#gameInfoTitle {
 
 /*scoreboard styling */
 #scoreboard {
-	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-		sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 	font-size: 15px;
 }
+
 .scoreboardTitle {
 	font-size: 20px;
 	color: #084838;
@@ -117,6 +116,7 @@ h5#gameInfoTitle {
 	margin-bottom: 10px;
 	margin-left: 10px;
 }
+
 .scoreboard {
 	margin-top: 5px;
 	text-align: center;
@@ -145,12 +145,14 @@ h5#gameInfoTitle {
 	flex-direction: column;
 	padding-bottom: 120px;
 }
+
 canvas {
 	width: 100px;
 	height: 100px;
 	border: 3px solid #0f7d62;
 	background-color: rgb(252, 244, 233);
 	text-align: center;
+
 	display: block;
 	float: left;
 	cursor: pointer;
@@ -198,6 +200,7 @@ canvas:hover {
 p {
 	margin-top: 5px;
 }
+
 button {
 	margin-left: 25px;
 	width: 200px;
@@ -216,51 +219,6 @@ button:hover {
 	background: #9bf0db;
 }
 
-/* Modal styling */
-.modal {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-	z-index: 1000;
-}
-
-#modalOverlay {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-	position: relative;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	transform: translateX(-40%);
-}
-
-.close {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-	color: black;
-	text-decoration: none;
-}
 /* footer styles */
 .site-footer {
 	position: fixed;
@@ -290,7 +248,7 @@ button:hover {
 }
 
 .modal {
-	display: none;	
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -316,13 +274,12 @@ button:hover {
 /* media queries */
 @media (max-width: 768px) {
 	.game-container {
-		position: relative;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 20px;
 	}
-	
+
 	h1#gameTitle {
 		font-size: 35px;
 	}
@@ -352,5 +309,4 @@ button:hover {
 		position: relative;
 		margin-top: 0;
 	}
-
 }

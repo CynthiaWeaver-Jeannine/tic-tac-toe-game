@@ -137,6 +137,7 @@ h5#gameInfoTitle {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	padding-bottom: 120px;
 }
 canvas {
 	width: 100px;
@@ -177,7 +178,7 @@ canvas:hover {
 }
 
 /* game info and button styles*/
-#gameInfo {
+.gameInfo {
 	position: relative;
 	width: 318px;
 	height: 318px;
@@ -236,6 +237,30 @@ button:hover {
 .site-footer a:hover {
 	color: rgb(136, 174, 246);
 	text-decoration: underline;
+}
+
+.modal {
+	display: none;	
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	z-index: 1000;
+}
+
+.modal-content {
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	/* Centering technique */
+	background-color: #f2f2f2;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 20%;
+	height: 8%;
 }
 
 /* media queries */

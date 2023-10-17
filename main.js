@@ -1,307 +1,225 @@
-/** @format */
-
-//main.js
 
 /** @format */
-import { humanSymbol, aiSymbol, hasWon, getAIMove } from "./ai.js";
+const humanSymbol = "X";
+const aiSymbol = "O";
+const HUMAN_WIN_SCORE = -10;
+const AI_WIN_SCORE = 10;
+const DRAW_SCORE = 0;
+let depth = 0;
+let maxDepth = 6;
 
-const boardConfig = {
-	size: 3,
-};
-
-function updateBoardSize(newSize) {
-	boardConfig.size = newSize;
-}
-
-// utility functions
-function initializeBoardState(boardConfig) {
+function generateWinningCombinations(boardConfig) {
 	boardConfig = boardConfig || { size: 3 };
-	return {
-		filled: Array(boardConfig.size * boardConfig.size).fill(false),
-		boardSymbols: Array(boardConfig.size * boardConfig.size).fill(""),
-	};
-}
-
-function isBoardFull(board, playerSymbol, opponentSymbol) {
-	return board.every(
-		(cell) => cell === playerSymbol || cell === opponentSymbol,
-	);
-}
-
-function updateScoreboardDisplay(humanWinCount, aiWinCount, drawCount) {
-	document.getElementById("humanWins").innerText = humanWinCount;
-	document.getElementById("aiWins").innerText = aiWinCount;
-	document.getElementById("draws").innerText = drawCount;
-}
-
-// game logic functions
-function drawSymbolOnBox(context, player, box) {
-	const canvasWidth = context.canvas.width;
-	const canvasHeight = context.canvas.height;
-
-	const lineWidth = canvasWidth * 0.1;
-	const margin = canvasWidth * 0.1;
-	const endPositionWidth = canvasWidth - margin;
-	const endPositionHeight = canvasHeight - margin;
-
-	if (player === humanSymbol) {
-		box.style.backgroundColor = "#fb5181";
-		context.beginPath();
-		context.moveTo(margin, margin);
-		context.lineTo(endPositionWidth, endPositionHeight);
-		context.moveTo(endPositionWidth, margin);
-		context.lineTo(margin, endPositionHeight);
-		context.lineWidth = lineWidth;
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.stroke();
-	} else {
-		box.style.backgroundColor = "#71e29c";
-		const circleCenterWidth = canvasWidth / 2;
-		const circleCenterHeight = canvasHeight / 2;
-		const circleRadius = Math.min(canvasWidth, canvasHeight) / 1.75 - lineWidth;
-
-		context.beginPath();
-		context.arc(
-			circleCenterWidth,
-			circleCenterHeight,
-			circleRadius,
-			0,
-			2 * Math.PI,
+	if (!boardConfig || !boardConfig.size) {
+		console.error("boardConfig or boardConfig.size is not defined!");
+		return [];
+	}
+	let combinations = [];
+	// rows
+	for (let i = 0; i < boardConfig.size; i++) {
+		combinations.push(
+			[...Array(boardConfig.size).keys()].map((j) => i * boardConfig.size + j),
 		);
-		context.lineWidth = lineWidth;
-		context.lineCap = "round";
-		context.strokeStyle = "white";
-		context.stroke();
 	}
-	boardSymbols[parseInt(box.id.replace("canvas", "")) - 1] = player;
-	filled[parseInt(box.id.replace("canvas", "")) - 1] = true;
-	turn++;
+	// columns
+	for (let j = 0; j < boardConfig.size; j++) {
+		combinations.push(
+			[...Array(boardConfig.size).keys()].map((i) => i * boardConfig.size + j),
+		);
+	}
+	//diagonals
+	combinations.push(
+		[...Array(boardConfig.size).keys()].map((i) => i * boardConfig.size + i),
+	);
+	combinations.push(
+		[...Array(boardConfig.size).keys()].map(
+			(i) => i * boardConfig.size + (boardConfig.size - 1 - i),
+		),
+	);
+
+	return combinations;
 }
 
-function checkForDraw() {
-	if (isBoardFull(boardSymbols, humanSymbol, aiSymbol)) {
-		document.getElementById("result").innerText =
-			"It's a Draw! Click NEW GAME!";
-		gameOver = true;
-		drawCount++;
-		updateScoreboardDisplay(humanWinCount, aiWinCount, drawCount);
-	}
-}
+function heuristicScore(board, boardConfig) {
+	boardConfig = boardConfig || { size: 3 };
+	let score = 0;
+	const winningCombinations = generateWinningCombinations( boardConfig);
 
-function checkGameState(playerSymbol) {
-	if (hasWon(boardSymbols, playerSymbol, boardConfig)) {
-		if (playerSymbol === humanSymbol) {
-			document.getElementById("result").innerText = "You won! Click NEW GAME!";
-			humanWinCount++;
-			updateScoreboardDisplay(humanWinCount, aiWinCount, drawCount);
-		} else {
-			document.getElementById("result").innerText = "Max Won! Click NEW GAME!";
-			aiWinCount++;
-			updateScoreboardDisplay(humanWinCount, aiWinCount, drawCount);
+	for (let combination of winningCombinations) {
+		const combinationSymbols = combination.map((i) => board[i]);
+		const humanCount = combinationSymbols.filter((s) => s === humanSymbol).length;
+		const aiCount = combinationSymbols.filter((s) => s === aiSymbol).length;
+		if (humanCount === 0) {
+			score += Math.pow(10, aiCount);
+		} else if (aiCount === 0) {
+			score -= Math.pow(10, humanCount);
 		}
-		gameOver = true;
+	}
+	return score;
+}
+
+
+
+
+
+function hasWon(board, player, boardConfig) {
+	const winningCombinations = generateWinningCombinations(boardConfig);
+
+	function checkForWinner(board, player) {
+		return winningCombinations.some((combination) =>
+			combination.every((cell) => board[cell] === player),
+		);
+	}
+
+	return checkForWinner(board, player);
+}
+
+//Minimax algorithm with alpha-beta pruning
+function evaluateBestMove(
+	currentBoardState,
+	player,
+	depth = 0,
+	alpha = -Infinity,
+	beta = Infinity,
+	boardConfig,
+) {
+	let boardCopy = [...currentBoardState];
+	const emptyPositions = getEmptyBoxPositions(boardCopy, boardConfig);
+	if (hasWon(currentBoardState, humanSymbol, boardConfig)) {
+		return { score: HUMAN_WIN_SCORE };
+	}
+	if (hasWon(currentBoardState, aiSymbol, boardConfig)) {
+		return { score: 10 };
+	}
+	if (emptyPositions.length === 0) {
+		return { score: DRAW_SCORE };
+	}
+	if (depth >= maxDepth) {
+		return { score: heuristicScore(currentBoardState, boardConfig) };
+	}
+	if (player === aiSymbol) {
+		let bestScore = -Infinity;
+		let bestMove;
+		for (let emptyIndex of emptyPositions) {
+			boardCopy[emptyIndex] = player;
+			const expectedLength = boardConfig.size * boardConfig.size;
+			if (currentBoardState.length !== expectedLength) {
+				console.error(
+					"Inconsistency detected in currentBoardState length during evaluation!",
+				);
+			}
+			let currentScore = evaluateBestMove(
+				boardCopy,
+				humanSymbol,
+				depth + 1,
+				alpha,
+				beta,
+				boardConfig,
+			).score;
+			boardCopy[emptyIndex] = "";
+			if (currentScore > bestScore) {
+				bestScore = currentScore;
+				bestMove = { id: emptyIndex, score: bestScore };
+			}
+			alpha = Math.max(alpha, bestScore);
+			if (beta <= alpha) {
+				break;
+			}
+		}
+		return bestMove || { score: -Infinity };
 	} else {
-		checkForDraw();
+		let bestScore = Infinity;
+		let bestMove;
+		for (let emptyIndex of emptyPositions) {
+			currentBoardState[emptyIndex] = player;
+			let currentScore = evaluateBestMove(
+				currentBoardState,
+				aiSymbol,
+				depth + 1,
+				alpha,
+				beta,
+				boardConfig,
+			).score;
+			currentBoardState[emptyIndex] = "";
+			if (currentScore < bestScore) {
+				bestScore = currentScore;
+				bestMove = { id: emptyIndex, score: bestScore };
+			}
+			beta = Math.min(beta, bestScore);
+			if (beta <= alpha) {
+				break;
+			}
+		}
+		return bestMove || { score: Infinity };
 	}
 }
 
-function clearCompleteBoard() {
-	for (let i = 1; i <= boardConfig.size * boardConfig.size; i++) {
-		const canvas = document.getElementById("canvas" + i);
-		if (canvas) {
-			const context = canvas.getContext("2d");
-			context.clearRect(0, 0, canvas.width, canvas.height);
-			canvas.style.backgroundColor = "";
+function getEmptyBoxPositions(currentBoardState) {
+	const emptyPositions = [];
+	for (let i = 0; i < currentBoardState.length; i++) {
+		if (
+			currentBoardState[i] !== humanSymbol &&
+			currentBoardState[i] !== aiSymbol
+		) {
+			emptyPositions.push(i);
 		}
 	}
-	const boardElement = document.getElementById("board");
-	while (boardElement.firstChild) {
-		boardElement.removeChild(boardElement.lastChild);
-	}
+	return emptyPositions;
 }
 
-function handleBoxClick(boxId) {
-	const num = parseInt(boxId.replace("canvas", "")) - 1;
-	const box = document.getElementById(boxId);
-	const context = box.getContext("2d");
-	if (filled[num]) {
-		showGameOverModal("This box is filled, please choose a different one.");
-		return;
-	}
-	if (gameOver) {
-		showGameOverModal("The game is over. Click NEW GAME to play again!");
-		return;
-	} // Human player's turn
-	if (turn % 2 !== 0) {
-		drawSymbolOnBox(context, humanSymbol, box);
-		checkGameState(humanSymbol);
-		if (!gameOver) {
-			handleAIMove(boardSymbols, boardConfig);
-		}
-	}
-}
-
-function handleAIMove() {
-	const boxId = getAIMove(boardSymbols, boardConfig);
-	console.log("Returned boxId:", boxId);
-	const box = document.getElementById(boxId);
-	if (!box) {
-		console.error("No canvas found for the provided boxId:", boxId);
-		return;
-	}
-	const context = box.getContext("2d");
-	checkGameState(aiSymbol);
-	if (gameOver) {
-		showGameOverModal("The game is over. Click NEW GAME to play again!");
-		return;
-	}
-	drawSymbolOnBox(context, aiSymbol, box);
-	checkGameState(aiSymbol);
-}
-
-function setupBoard(size = boardConfig.size) {
-	const boardDiv = document.getElementById("board");
-	boardDiv.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-	boardDiv.innerHTML = "";
-	for (let i = 1; i <= size * size; i++) {
-		const canvas = document.createElement("canvas");
-		canvas.id = "canvas" + i;
-		boardDiv.appendChild(canvas);
-	}
-}
-
-const FIRST_PLAYER_CHANCE = 0.5;
-let humanWinCount = 0,
-	aiWinCount = 0,
-	drawCount = 0,
-	turn = 1,
-	{ filled, boardSymbols } = initializeBoardState(),
-	gameOver = false;
-
-let elements = {
-	board: document.getElementById("board"),
-	gameOverModal: document.getElementById("gameOverModal"),
-	gameOverMessage: document.querySelector("#modalOverlay p"),
-	modalOverlay: document.getElementById("modalOverlay"),
-	result: document.getElementById("result"),
-};
-
-let closeSpan = document.querySelector(".close");
-
-closeSpan.onClick = function () {
-	elements.modalOverlay.style.display = "none";
-};
-
-window.onclick = function (event) {
-	if (event.target == elements.modalOverlay) {
-		elements.modalOverlay.style.display = "none";
-	}
-};
-
-function openModal() {
-	elements.modalOverlay.style.display = "block";
-}
-
-// game state management functions
-function resetBoardAndGameState() {
-	clearCompleteBoard();
-	filled = Array(boardConfig.size * boardConfig.size).fill(false);
-	boardSymbols = Array(boardConfig.size * boardConfig.size).fill("");
-	gameOver = false;
-	elements.result.innerText = "";
-	setupBoard();
-}
-
-function resetGameState() {
-	turn = 1;
-	gameOver = false;
-	elements.result.innerText = "";
-}
-
-function newGame() {
-	closeGameOverModal();
-	resetBoardAndGameState();
-	resetGameState();
-	const randomPlayer = Math.random() < FIRST_PLAYER_CHANCE ? "human" : "ai";
-	if (randomPlayer === "human") {
-		turn = 1;
-	} else {
-		turn = 0;
-		handleAIMove(boardSymbols, boardConfig);
-	}
-}
-
-function initializeModal() {
-	elements.modalOverlay.style.display = "none";
-	elements.gameOverModal.style.display = "none";
-}
-
-function showGameOverModal(message) {
-	elements.gameOverMessage.textContent = message;
-	elements.modalOverlay.style.display = "block";
-	elements.gameOverModal.style.display = "block";
-}
-
-function closeGameOverModal() {
-	elements.modalOverlay.style.display = "none";
-}
-
-function handleClickOutsideModal(event) {
-	if (event.target === elements.modalOverlay) {
-		closeGameOverModal();
-	}
-}
-
-function drawNewBoard() {
-	clearCompleteBoard();
-	resetBoardAndGameState();
-	setupBoard();
-}
-
-// event listeners and main logic
-window.addEventListener("DOMContentLoaded", function () {
-	elements = {
-		board: document.getElementById("board"),
-		gameOverModal: document.getElementById("gameOverModal"),
-		gameOverMessage: document.querySelector("#modalOverlay p"),
-		modalOverlay: document.getElementById("modalOverlay"),
-		result: document.getElementById("result"),
-	};
-
-	document
-		.querySelector(".close")
-		.addEventListener("click", closeGameOverModal);
-	elements.modalOverlay.addEventListener("click", handleClickOutsideModal);
-
-	document.querySelectorAll('input[name="boardSize"]').forEach((radio) => {
-		radio.addEventListener("change", (event) => {
-			const newSize = parseInt(event.target.value, 10);
-			updateBoardSize(newSize);
-			drawNewBoard();
-		});
-	});
-
-	document.getElementById("gameMode").addEventListener("change", function (e) {
-		const validModes = ["classic", "easy", "random"];
-		if (!validModes.includes(e.target.value)) {
-			showGameOverModal(
-				"Invalid game mode selected. Please choose a valid game mode.",
+function getAIMove(boardSymbols, boardConfig) {
+	switch (document.getElementById("gameMode").value) {
+		case "classic":
+			return (
+				"canvas" +
+				(evaluateBestMove(
+					boardSymbols,
+					aiSymbol,
+					0,
+					-Infinity,
+					Infinity,
+					boardConfig,
+				).id +
+					1)
 			);
-			e.target.value = "classic";
-		}
-	});
-	document.getElementById("newGameButton").addEventListener("click", newGame);
-	document.getElementById("resetButton").addEventListener("click", function () {
-		humanWinCount = aiWinCount = drawCount = 0;
-		updateScoreboardDisplay(humanWinCount, aiWinCount, drawCount);
-	});
-	elements.board.addEventListener("click", function (e) {
-		handleBoxClick(e.target.id);
-	});
+		case "easy":
+			return getEasyMove(boardSymbols, boardConfig);
+		case "random":
+			return getRandomMove(boardSymbols);
+		default:
+			console.error("Unknown game mode:", gameMode);
+			alert("Invalid game mode selected. Please choose a valid game mode.");
+			return;
+	}
+}
 
-	initializeModal(boardConfig.size);
-	setupBoard(boardConfig.size);
-	newGame();
-	document.getElementById("size" + boardConfig.size).checked = true;
-});
+function getEasyMove(boardSymbols, boardConfig) {
+	// Check if there's a winning move for AI
+	for (let i = 0; i < boardSymbols.length; i++) {
+		if (!boardSymbols[i]) {
+			boardSymbols[i] = aiSymbol;
+			if (hasWon(boardSymbols, aiSymbol, boardConfig)) {
+				return "canvas" + (i + 1);
+			}
+			boardSymbols[i] = "";
+		}
+	}
+	return getRandomMove(boardSymbols, boardConfig);
+}
+
+function getRandomMove(boardSymbols, boardConfig) {
+	const emptyPositions = getEmptyBoxPositions(boardSymbols, boardConfig);
+	const randomIndex = Math.floor(Math.random() * emptyPositions.length);
+	return "canvas" + (emptyPositions[randomIndex] + 1);
+}
+
+export {
+	humanSymbol,
+	aiSymbol,
+	hasWon,
+	evaluateBestMove,
+	getEmptyBoxPositions,
+	getAIMove,
+	getEasyMove,
+	getRandomMove,
+};

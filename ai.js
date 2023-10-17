@@ -5,10 +5,21 @@ const HUMAN_WIN_SCORE = -10;
 const AI_WIN_SCORE = 10;
 const DRAW_SCORE = 0;
 
+
 function generateWinningCombinations(boardConfig = {size:3}) {
 	if (!boardConfig || !boardConfig.size) {
         console.error("boardConfig or boardConfig.size is not defined!");
         return [];
+
+let depth = 0;
+let maxDepth = 6;
+
+function generateWinningCombinations(boardConfig) {
+	boardConfig = boardConfig || { size: 3 };
+	if (!boardConfig || !boardConfig.size) {
+		console.error("boardConfig or boardConfig.size is not defined!");
+		return [];
+
 	}
 	let combinations = [];
 	// rows
@@ -36,6 +47,7 @@ function generateWinningCombinations(boardConfig = {size:3}) {
 	return combinations;
 }
 
+
 function hasWon(board, player, boardConfig) {
 	const winningCombinations = generateWinningCombinations(boardConfig);
 	return checkForWinner(board, player);
@@ -48,6 +60,40 @@ function hasWon(board, player, boardConfig) {
 		);
 	}
 }
+
+function heuristicScore(board, boardConfig) {
+	boardConfig = boardConfig || { size: 3 };
+	let score = 0;
+	const winningCombinations = generateWinningCombinations(boardConfig);
+
+	for (let combination of winningCombinations) {
+		const combinationSymbols = combination.map((i) => board[i]);
+		const humanCount = combinationSymbols.filter(
+			(s) => s === humanSymbol,
+		).length;
+		const aiCount = combinationSymbols.filter((s) => s === aiSymbol).length;
+		if (humanCount === 0) {
+			score += Math.pow(10, aiCount);
+		} else if (aiCount === 0) {
+			score -= Math.pow(10, humanCount);
+		}
+	}
+	return score;
+}
+
+function hasWon(board, player, boardConfig) {
+	const winningCombinations = generateWinningCombinations(boardConfig);
+
+	function checkForWinner(board, player) {
+		return winningCombinations.some((combination) =>
+			combination.every((cell) => board[cell] === player),
+		);
+	}
+
+	return checkForWinner(board, player);
+}
+
+
 //Minimax algorithm with alpha-beta pruning
 function evaluateBestMove(
 	currentBoardState,
@@ -55,25 +101,34 @@ function evaluateBestMove(
 	depth = 0,
 	alpha = -Infinity,
 	beta = Infinity,
+
+
+	boardConfig,
+
 ) {
-	const emptyPositions = getEmptyBoxPositions(currentBoardState);
-	if (hasWon(currentBoardState, humanSymbol)) {
+	let boardCopy = [...currentBoardState];
+	const emptyPositions = getEmptyBoxPositions(boardCopy, boardConfig);
+	if (hasWon(currentBoardState, humanSymbol, boardConfig)) {
 		return { score: HUMAN_WIN_SCORE };
 	}
+
 	if (hasWon(currentBoardState, aiSymbol)) {
+
+	if (hasWon(currentBoardState, aiSymbol, boardConfig)) {
+
 		return { score: 10 };
 	}
 	if (emptyPositions.length === 0) {
 		return { score: DRAW_SCORE };
 	}
 	if (depth >= maxDepth) {
-		return { score: heuristicScore(currentBoardState) };
+		return { score: heuristicScore(currentBoardState, boardConfig) };
 	}
 	if (player === aiSymbol) {
 		let bestScore = -Infinity;
 		let bestMove;
 		for (let emptyIndex of emptyPositions) {
-			currentBoardState[emptyIndex] = player;
+			boardCopy[emptyIndex] = player;
 			const expectedLength = boardConfig.size * boardConfig.size;
 			if (currentBoardState.length !== expectedLength) {
 				console.error(
@@ -81,14 +136,14 @@ function evaluateBestMove(
 				);
 			}
 			let currentScore = evaluateBestMove(
-				currentBoardState,
+				boardCopy,
 				humanSymbol,
-				depth+1,
+				depth + 1,
 				alpha,
 				beta,
 				boardConfig,
 			).score;
-			currentBoardState[emptyIndex] = "";
+			boardCopy[emptyIndex] = "";
 			if (currentScore > bestScore) {
 				bestScore = currentScore;
 				bestMove = { id: emptyIndex, score: bestScore };
@@ -107,7 +162,7 @@ function evaluateBestMove(
 			let currentScore = evaluateBestMove(
 				currentBoardState,
 				aiSymbol,
-				depth+1,
+				depth + 1,
 				alpha,
 				beta,
 				boardConfig,
@@ -147,9 +202,15 @@ function getAIMove(boardSymbols, boardConfig) {
 				(evaluateBestMove(
 					boardSymbols,
 					aiSymbol,
+
 					-Infinity,
 					Infinity,
 					6,
+
+					0,
+					-Infinity,
+					Infinity,
+
 					boardConfig,
 				).id +
 					1)

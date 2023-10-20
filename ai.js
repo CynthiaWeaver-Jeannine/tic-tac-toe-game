@@ -4,8 +4,7 @@ const aiSymbol = "O";
 const HUMAN_WIN_SCORE = -10;
 const AI_WIN_SCORE = 10;
 const DRAW_SCORE = 0;
-let depth = 0;
-let maxDepth = 6;
+let maxDepth = 5;
 
 function generateWinningCombinations(boardConfig) {
 	boardConfig = boardConfig || { size: 3 };

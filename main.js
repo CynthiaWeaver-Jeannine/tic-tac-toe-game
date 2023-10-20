@@ -1,8 +1,4 @@
 /** @format */
-
-
-
-/** @format */
 import { humanSymbol, aiSymbol, hasWon, getAIMove } from "./ai.js";
 
 const boardConfig = {
@@ -143,7 +139,9 @@ function handleBoxClick(boxId) {
 }
 
 function handleAIMove() {
-	const boxId = getAIMove(boardSymbols, boardConfig);
+	let gameMode = document.getElementById("gameMode").value;
+	gameMode = gameMode || "easy";
+	const boxId = getAIMove(boardSymbols, boardConfig, gameMode);
 	console.log("Returned boxId:", boxId);
 	const box = document.getElementById(boxId);
 	if (!box) {
@@ -157,8 +155,6 @@ function handleAIMove() {
 		showGameOverModal("The game is over. Click NEW GAME to play again!");
 		return;
 	}
-	
-	
 }
 
 function setupBoard(size = boardConfig.size) {

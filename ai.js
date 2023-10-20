@@ -86,7 +86,7 @@ function evaluateBestMove(
 		return { score: HUMAN_WIN_SCORE };
 	}
 	if (hasWon(currentBoardState, aiSymbol, boardConfig)) {
-		return { score: 10 };
+		return { score: AI_WIN_SCORE};
 	}
 	if (emptyPositions.length === 0) {
 		return { score: DRAW_SCORE };
@@ -164,8 +164,8 @@ function getEmptyBoxPositions(currentBoardState) {
 	return emptyPositions;
 }
 
-function getAIMove(boardSymbols, boardConfig) {
-	switch (document.getElementById("gameMode").value) {
+function getAIMove(boardSymbols, boardConfig, gameMode) {
+	switch (gameMode) {
 		case "classic":
 			return (
 				"canvas" +

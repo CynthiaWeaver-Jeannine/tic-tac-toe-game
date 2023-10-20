@@ -152,7 +152,6 @@ function handleAIMove() {
 	drawSymbolOnBox(context, aiSymbol, box);
 	checkGameState(aiSymbol);
 	if (gameOver) {
-		showGameOverModal("The game is over. Click NEW GAME to play again!");
 		return;
 	}
 }

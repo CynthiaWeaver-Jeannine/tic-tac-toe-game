@@ -245,7 +245,7 @@ button:hover {
 	color: rgb(136, 174, 246);
 	text-decoration: underline;
 }
-
+/* modal styles */
 .modal {
 	display: none;
 	position: fixed;
@@ -267,6 +267,17 @@ button:hover {
 	border: 1px solid #888;
 	width: 20%;
 	height: 8%;
+}
+
+.close {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	font-size: 30px;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	color:#171616
 }
 
 /* media queries */

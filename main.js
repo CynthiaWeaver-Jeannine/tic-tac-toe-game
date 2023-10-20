@@ -151,13 +151,14 @@ function handleAIMove() {
 		return;
 	}
 	const context = box.getContext("2d");
+	drawSymbolOnBox(context, aiSymbol, box);
 	checkGameState(aiSymbol);
 	if (gameOver) {
 		showGameOverModal("The game is over. Click NEW GAME to play again!");
 		return;
 	}
-	drawSymbolOnBox(context, aiSymbol, box);
-	checkGameState(aiSymbol);
+	
+	
 }
 
 function setupBoard(size = boardConfig.size) {

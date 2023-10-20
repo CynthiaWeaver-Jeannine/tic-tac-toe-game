@@ -262,7 +262,6 @@ button:hover {
 	top: 30%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	/* Centering technique */
 	background-color: #f2f2f2;
 	padding: 20px;
 	border: 1px solid #888;

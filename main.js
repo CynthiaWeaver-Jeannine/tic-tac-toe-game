@@ -1,6 +1,6 @@
 /** @format */
 
-//main.js
+
 
 /** @format */
 import { humanSymbol, aiSymbol, hasWon, getAIMove } from "./ai.js";
